@@ -1,6 +1,3 @@
-# Checkers
-Built in 2 weeks for the course CPSC 327 Object-Oriented Programming at Yale
-
 # Specification
 You may work on this assignment in pairs. This should be an equal partnership and both of you should understand all the code you write.
 Please read [this document](https://yale.instructure.com/courses/63186/files/4990276/download) to get some tips for successful pair programming.
