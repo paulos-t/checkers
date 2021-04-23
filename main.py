@@ -70,14 +70,14 @@ class CheckerBoard():
             i += 1
         return out + "  a b c d e f g h"
 
-    def convert_checker_coord(coord):
+    def convert_checker_coord(coord:str):
         col = coord[:1]
         row = coord[1:]
         col = ord(col) - 96
         row = int(row)
         return (row - 1, col - 1)
 
-    def convert_matrix_coord(coord):
+    def convert_matrix_coord(coord:tuple):
         row, col = coord
         return chr(col + 96 + 1) + str(row + 1)
 
