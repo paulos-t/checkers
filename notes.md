@@ -1,5 +1,12 @@
-TODO: spec, UML diagram, then questions about organization of modules/classes and making code general and reusable for other checker-board games like chess; if there’s time, start looking at specifics on data structures and logic
+## TODO:
+1. UML diagram
+2. Write-up of design patterns used
 
+## Important things to consider:
+- Making code general and reusable for other checker-board games like chess
+
+
+## Planning the UML Diagram
 
 CheckerBoard
 - board_state
@@ -18,7 +25,6 @@ Abstract Base Class: Piece
     - needs to know:
         - is diagonally adjacent
         - empty next space
-
 
 King (inherits from Piece)
 - override simple_move and jump so that it can move/jump backwards as well
