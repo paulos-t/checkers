@@ -2,13 +2,16 @@ TODO: spec, UML diagram, then questions about organization of modules/classes an
 
 
 CheckerBoard
-- attribute: board_state
+- board_state
+- turns
 
 Player
-
+- canJump(): bool
+    - if there are multiple options, then the player chooses which piece to jump with
 
 Abstract Base Class: Piece
-- attribute: state, can be IN_PLAY or CAPTURED
+- state: can be IN_PLAY or CAPTURED
+- color
 - simple_move method
     - diagonally forward
 - jump method
@@ -21,3 +24,4 @@ King (inherits from Piece)
 - override simple_move and jump so that it can move/jump backwards as well
 
 Peasants
+- inKingsRow(): bool
