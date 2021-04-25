@@ -43,20 +43,20 @@ class CheckerBoard():
     rows, cols = (8, 8)
     b_space = '\u25fc'
     w_space = '\u25fb'
-    b_peasant = '\u2688'
-    w_peasant = '\u2686'
-    b_king = '\u2689'
-    w_king = '\u2687'
+    # b_peasant = '\u2688'
+    # w_peasant = '\u2686'
+    # b_king = '\u2689'
+    # w_king = '\u2687'
 
     def __init__(self):
-        self.board = [[self.b_peasant,self.b_space,self.b_peasant,self.b_space, self.b_peasant, self.b_space, self.b_peasant, self.b_space],
-            [self.b_space,self.b_peasant,self.b_space,self.b_peasant,self.b_space, self.b_peasant, self.b_space, self.b_peasant],
-            [self.b_peasant,self.b_space,self.b_peasant,self.b_space, self.b_peasant, self.b_space, self.b_peasant, self.b_space],
-            [self.b_space,self.w_space,self.b_space,self.w_space,self.b_space, self.w_space, self.b_space, self.w_space],
-            [self.w_space,self.b_space,self.w_space,self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
-            [self.b_space,self.w_peasant,self.b_space,self.w_peasant,self.b_space, self.w_peasant, self.b_space, self.w_peasant],
-            [self.w_peasant,self.b_space,self.w_peasant,self.b_space, self.w_peasant, self.b_space, self.w_peasant, self.b_space],
-            [self.b_space,self.w_peasant,self.b_space,self.w_peasant,self.b_space, self.w_peasant, self.b_space, self.w_peasant]]
+        self.board = [[Piece('b'), self.b_space, Piece('b'),self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space],
+            [self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b')],
+            [Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space],
+            [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
+            [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
+            [self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w')],
+            [Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space],
+            [self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w')]]
         self.turn = 1
 
     def __repr__(self):
@@ -71,6 +71,7 @@ class CheckerBoard():
         return out + "  a b c d e f g h"
 
     def convert_checker_coord(coord:str):
+        """ Converts board coordinates into matrix coordinates """
         col = coord[:1]
         row = coord[1:]
         col = ord(col) - 96
@@ -78,14 +79,20 @@ class CheckerBoard():
         return (row - 1, col - 1)
 
     def convert_matrix_coord(coord:tuple):
+        """ Converts matrix coordinates into board coordinates """
         row, col = coord
         return chr(col + 96 + 1) + str(row + 1)
 
-    def has_piece(self, piece:str) -> bool:
-        pass
+    def has_piece(self, spot:str) -> bool:
+        coord = self.convert_checker_coord(spot)
+        return isinstance(self.board[coord[0]][coord[1]], Piece)
 
     def is_current_player_piece(self, piece:str) -> bool:
-        pass
+        ## uses the number of turns played to determine which player's turn it is
+        coord = self.convert_checker_coord(piece)
+        piece_color = str(self.board[coord[0]][coord[1]])
+        current_player = 'w' if self.turn % 2 == 1 else 'b'
+        return True if piece_color == current_player else False
 
     def can_move(self, piece:str) -> bool:
         pass
@@ -103,6 +110,9 @@ class Piece():
         else:
             self.color = None
             print("Please provide a valid color")
+    
+    def __repr__(self):
+        return self.color
 
     def move(self):
         pass
