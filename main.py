@@ -1,4 +1,7 @@
-## Classes
+B_PEASANT = '\u2688'
+W_PEASANT = '\u2686'
+B_KING = '\u2689'
+W_KING = '\u2687'
 
 class CheckersCLI():
     def __init__(self):
@@ -43,10 +46,6 @@ class CheckerBoard():
     rows, cols = (8, 8)
     b_space = '\u25fc'
     w_space = '\u25fb'
-    # b_peasant = '\u2688'
-    # w_peasant = '\u2686'
-    # b_king = '\u2689'
-    # w_king = '\u2687'
 
     def __init__(self):
         self.board = [[Piece('b'), self.b_space, Piece('b'),self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space],
@@ -70,7 +69,7 @@ class CheckerBoard():
             i += 1
         return out + "  a b c d e f g h"
 
-    def convert_checker_coord(self, coord:str):
+    def convert_checker_coord(self, coord:str) -> tuple:
         """ Converts board coordinates into matrix coordinates """
         col = coord[:1]
         row = coord[1:]
@@ -78,7 +77,7 @@ class CheckerBoard():
         row = int(row)
         return (row - 1, col - 1)
 
-    def convert_matrix_coord(self, coord:tuple):
+    def convert_matrix_coord(self, coord:tuple) -> str:
         """ Converts matrix coordinates into board coordinates """
         row, col = coord
         return chr(col + 96 + 1) + str(row + 1)
@@ -88,10 +87,9 @@ class CheckerBoard():
         return isinstance(self.board[coord[0]][coord[1]], Piece)
 
     def is_current_player_piece(self, piece:str) -> bool:
-        ## uses the number of turns played to determine which player's turn it is
         coord = self.convert_checker_coord(piece)
         piece_color = str(self.board[coord[0]][coord[1]])
-        current_player = '\u2686' if self.turn % 2 == 1 else '\u2688'
+        current_player = W_PEASANT if self.turn % 2 == 1 else B_PEASANT
         return True if piece_color == current_player else False
 
     def can_move(self, piece:str) -> bool:
@@ -141,9 +139,9 @@ class CheckerBoard():
 class Piece():
     def __init__(self, color):
         if color == 'b':
-            self.color = '\u2688'
+            self.color = B_PEASANT
         elif color == 'w':
-            self.color = '\u2686'
+            self.color = W_PEASANT
         else:
             self.color = None
             print("Please provide a valid color")
@@ -163,15 +161,19 @@ class Piece():
     def double_jump(self):
         pass
 
+
 class King(Piece):
     def __init__(self, color):
         if color == 'b':
-            self.color = '\u2689'
+            self.color = B_KING
         elif color == 'w':
-            self.color = '\u2687'
+            self.color = W_KING
         else:
             self.color = None
             print("Please provide a valid color")
+
+    def __repr__(self):
+        return self.color
 
     def move(self):
         return super().move() # can move backwards too
