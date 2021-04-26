@@ -95,7 +95,44 @@ class CheckerBoard():
         return True if piece_color == current_player else False
 
     def can_move(self, piece:str) -> bool:
-        pass
+        coord = self.convert_checker_coord(piece)
+        avail_spots
+        #check if this is a black piece
+        if isinstance(self.board[coord[0]][coord[1]], Piece('b')):
+            #check for if a black piece is on the left edge of the board
+            if coord[1] == 0 and self.board[coord[0]+1][coord[1]+1] == self.w_space:
+                return True
+            #check for if a black piece is on the right edge of the board
+            elif coord[1] == 7 and self.board[coord[0]+1][coord[1]-1] == self.w_space:
+                return True
+            elif self.board[coord[0]+1][coord[1]-1] == self.w_space:
+                return True
+            elif self.board[coord[0]+1][coord[1]+1] == self.w_space:
+                return True
+            else:
+                return False
+
+        #check if this is a white piece
+        elif isinstance(self.board[coord[0]][coord[1]], Piece('w')):
+            #check for if a white piece is on the left edge of a board
+            if coord[1] == 0 and self.board[coord[0]-1][coord[1]+1] == self.w_space:
+                return True
+            #check for if a white piece is on the right edge of the board
+            elif coord[1] == 7 and self.board[coord[0]-1][coord[1]-1] == self.w_space:
+                return True
+
+            elif self.board[coord[0]-1][coord[1]-1] == self.w_space:
+                return True
+            elif self.board[coord[0]-1][coord[1]+1] == self.w_space:
+                return True
+            else:
+                return False
+        else:
+            return False
+        
+            
+
+
 
     def possible_moves(self, piece:str) -> list:
         pass
@@ -113,6 +150,9 @@ class Piece():
     
     def __repr__(self):
         return self.color
+
+    def can_move(self, piece:str) -> bool:
+        pass
 
     def move(self):
         pass
