@@ -70,7 +70,7 @@ class CheckerBoard():
             i += 1
         return out + "  a b c d e f g h"
 
-    def convert_checker_coord(coord:str):
+    def convert_checker_coord(self, coord:str):
         """ Converts board coordinates into matrix coordinates """
         col = coord[:1]
         row = coord[1:]
@@ -78,7 +78,7 @@ class CheckerBoard():
         row = int(row)
         return (row - 1, col - 1)
 
-    def convert_matrix_coord(coord:tuple):
+    def convert_matrix_coord(self, coord:tuple):
         """ Converts matrix coordinates into board coordinates """
         row, col = coord
         return chr(col + 96 + 1) + str(row + 1)
@@ -91,7 +91,7 @@ class CheckerBoard():
         ## uses the number of turns played to determine which player's turn it is
         coord = self.convert_checker_coord(piece)
         piece_color = str(self.board[coord[0]][coord[1]])
-        current_player = 'w' if self.turn % 2 == 1 else 'b'
+        current_player = '\u2686' if self.turn % 2 == 1 else '\u2688'
         return True if piece_color == current_player else False
 
     def can_move(self, piece:str) -> bool:
