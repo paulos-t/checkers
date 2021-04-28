@@ -32,12 +32,15 @@ class CheckersCLI():
                 print("That is not your piece")
                 new_turn = False
                 continue
-            elif not self.game.can_move(p_to_move):
+
+            possible_moves = self.game.possible_moves(p_to_move)
+            if len(possible_moves) == 0:
                 print("That piece cannot move")
                 new_turn = False
                 continue
             else:
-                self.game.possible_moves(p_to_move)
+                selected_move = input(possible_moves)
+                ## make a move
                 new_turn = True
 
 
@@ -93,7 +96,40 @@ class CheckerBoard():
         return True if piece_color == current_player else False
 
     def can_move(self, piece:str) -> bool:
-        pass
+        coord = self.convert_checker_coord(piece)
+
+        #check if this is a black piece
+        if isinstance(self.board[coord[0]][coord[1]], Piece('b')):
+            #check for if a black piece is on the left edge of the board
+            if coord[1] == 0 and self.board[coord[0]+1][coord[1]+1] == self.w_space:
+                return True
+            #check for if a black piece is on the right edge of the board
+            elif coord[1] == 7 and self.board[coord[0]+1][coord[1]-1] == self.w_space:
+                return True
+            elif self.board[coord[0]+1][coord[1]-1] == self.w_space:
+                return True
+            elif self.board[coord[0]+1][coord[1]+1] == self.w_space:
+                return True
+            else:
+                return False
+
+        #check if this is a white piece
+        elif isinstance(self.board[coord[0]][coord[1]], Piece('w')):
+            #check for if a white piece is on the left edge of a board
+            if coord[1] == 0 and self.board[coord[0]-1][coord[1]+1] == self.w_space:
+                return True
+            #check for if a white piece is on the right edge of the board
+            elif coord[1] == 7 and self.board[coord[0]-1][coord[1]-1] == self.w_space:
+                return True
+
+            elif self.board[coord[0]-1][coord[1]-1] == self.w_space:
+                return True
+            elif self.board[coord[0]-1][coord[1]+1] == self.w_space:
+                return True
+            else:
+                return False
+        else:
+            return False
 
     def possible_moves(self, piece:str) -> list:
         pass
