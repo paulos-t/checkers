@@ -41,8 +41,8 @@ class CheckersCLI():
             else:
                 # selected_move = input(possible_moves)
                 ## make a move
-                print(self.game.possible_basic_moves)
-                print(self.game.possible_jump_moves)
+                print(self.game.possible_basic_moves(p_to_move))
+                print(self.game.possible_jump_moves(p_to_move))
                 self.game.turn += 1
                 new_turn = True
 
@@ -112,12 +112,18 @@ class CheckerBoard():
         p_basic_moves = []
         
         if piece_color == B_PEASANT:
-            if coord[1] == 0 and self.board[coord[0]+1][coord[1]+1] == self.w_space:
-                # when in left column
-                p_basic_moves.append(self.convert_matrix_coord((coord[0]+1, coord[1]+1)))
-            elif coord[1] == 7 and self.board[coord[0]+1][coord[1]-1] == self.w_space:
-                # when in right column
-                p_basic_moves.append(self.convert_matrix_coord((coord[0]+1, coord[1]-1)))
+            if coord[1] == 0:
+                if self.board[coord[0]+1][coord[1]+1] == self.w_space:
+                    # when in left column
+                    p_basic_moves.append(self.convert_matrix_coord((coord[0]+1, coord[1]+1)))
+                else:
+                    return p_basic_moves
+            elif coord[1] == 7:
+                if self.board[coord[0]+1][coord[1]-1] == self.w_space:
+                    # when in right column
+                    p_basic_moves.append(self.convert_matrix_coord((coord[0]+1, coord[1]-1)))
+                else:
+                    return p_basic_moves
             else:
                 # everywhere else
                 if self.board[coord[0]+1][coord[1]-1] == self.w_space:
@@ -126,12 +132,18 @@ class CheckerBoard():
                     p_basic_moves.append(self.convert_matrix_coord((coord[0]+1, coord[1]+1)))
 
         elif piece_color == W_PEASANT:
-            if coord[1] == 0 and self.board[coord[0]-1][coord[1]+1] == self.w_space:
-                # when in right column
-                p_basic_moves.append(self.convert_matrix_coord((coord[0]-1, coord[1]+1)))
-            elif coord[1] == 7 and self.board[coord[0]-1][coord[1]-1] == self.w_space:
-                # when in left column
-                p_basic_moves.append(self.convert_matrix_coord((coord[0]-1, coord[1]-1)))
+            if coord[1] == 0:
+                if self.board[coord[0]-1][coord[1]+1] == self.w_space:
+                    # when in left column
+                    p_basic_moves.append(self.convert_matrix_coord((coord[0]-1, coord[1]+1)))
+                else:
+                    return p_basic_moves
+            elif coord[1] == 7:
+                if self.board[coord[0]-1][coord[1]-1] == self.w_space:
+                    # when in right column
+                    p_basic_moves.append(self.convert_matrix_coord((coord[0]-1, coord[1]-1)))
+                else:
+                    return p_basic_moves
             else:
                 # everywhere else
                 if self.board[coord[0]-1][coord[1]-1] == self.w_space:
@@ -140,36 +152,46 @@ class CheckerBoard():
                     p_basic_moves.append(self.convert_matrix_coord((coord[0]-1, coord[1]+1)))
 
         elif piece_color == B_KING or piece_color == W_KING:
-            if coord[0] == 0 and coord[1] == 0 and self.board[coord[0]+1][coord[1]+1] == self.w_space:
-                # top-left corner
-                p_basic_moves.append(self.convert_matrix_coord((coord[0]+1, coord[1]+1)))
-            elif coord[0] == 7 and coord[1] == 7 and self.board[coord[0]-1][coord[1]-1] == self.w_space:
-                # bottom-right corner
-                p_basic_moves.append(self.convert_matrix_coord((coord[0]-1, coord[1]-1)))
+            if coord[0] == 0 and coord[1] == 0:
+                if self.board[coord[0]+1][coord[1]+1] == self.w_space:
+                    # top-left corner
+                    p_basic_moves.append(self.convert_matrix_coord((coord[0]+1, coord[1]+1)))
+                else:
+                    return p_basic_moves
+            elif coord[0] == 7 and coord[1] == 7:
+                if self.board[coord[0]-1][coord[1]-1] == self.w_space:
+                    # bottom-right corner
+                    p_basic_moves.append(self.convert_matrix_coord((coord[0]-1, coord[1]-1)))
+                else:
+                    return p_basic_moves
             elif coord[0] == 0:
                 # when king is in top row
                 if self.board[coord[0]+1][coord[1]-1] == self.w_space:
                     p_basic_moves.append(self.convert_matrix_coord((coord[0]+1, coord[1]-1)))
                 if self.board[coord[0]+1][coord[1]+1] == self.w_space:
                     p_basic_moves.append(self.convert_matrix_coord((coord[0]+1, coord[1]+1)))
+                return p_basic_moves
             elif coord[0] == 7:
                 # when king is in bottom row
                 if self.board[coord[0]-1][coord[1]-1] == self.w_space:
                     p_basic_moves.append(self.convert_matrix_coord((coord[0]-1, coord[1]-1)))
                 if self.board[coord[0]-1][coord[1]+1] == self.w_space:
                     p_basic_moves.append(self.convert_matrix_coord((coord[0]-1, coord[1]+1)))
+                return p_basic_moves
             elif coord[1] == 0:
                 # when king is in left column
                 if self.board[coord[0]-1][coord[1]+1] == self.w_space:
                     p_basic_moves.append(self.convert_matrix_coord((coord[0]-1, coord[1]+1)))
                 if self.board[coord[0]+1][coord[1]+1] == self.w_space:
                     p_basic_moves.append(self.convert_matrix_coord((coord[0]+1, coord[1]+1)))
+                return p_basic_moves
             elif coord[1] == 7:
                 # when king is in right column
                 if self.board[coord[0]-1][coord[1]-1] == self.w_space:
                     p_basic_moves.append(self.convert_matrix_coord((coord[0]-1, coord[1]-1)))
                 if self.board[coord[0]+1][coord[1]-1] == self.w_space:
                     p_basic_moves.append(self.convert_matrix_coord((coord[0]+1, coord[1]-1)))
+                return p_basic_moves
             else:
                 # everywhere else (middle of board)
                 if self.board[coord[0]-1][coord[1]-1] == self.w_space:
@@ -201,12 +223,18 @@ class CheckerBoard():
             if coord[0] == 7 or coord[0] == 6:
                 # when in bottom two rows
                 return p_jump_moves
-            elif (coord[1] == 0 or coord[1] == 1) and self.has_piece(down_right) and not self.is_current_player_piece(down_right) and not self.has_piece(down_right_2):
-                # when in first two columns
-                p_jump_moves.append( [down_right_2, down_right] )
-            elif (coord[1] == 7 or coord[1] == 6) and self.has_piece(down_left) and not self.is_current_player_piece(down_left) and not self.has_piece(down_left_2):
-                # when in last two columns
-                p_jump_moves.append( [down_left_2, down_left] )
+            elif (coord[1] == 0 or coord[1] == 1):
+                if self.has_piece(down_right) and not self.is_current_player_piece(down_right) and not self.has_piece(down_right_2):
+                    # when in first two columns
+                    p_jump_moves.append( [down_right_2, down_right] )
+                else:
+                    return p_jump_moves
+            elif (coord[1] == 7 or coord[1] == 6):
+                if self.has_piece(down_left) and not self.is_current_player_piece(down_left) and not self.has_piece(down_left_2):
+                    # when in last two columns
+                    p_jump_moves.append( [down_left_2, down_left] )
+                else:
+                    return p_jump_moves
             else:
                 # everywhere else
                 if self.has_piece(down_right) and not self.is_current_player_piece(down_right) and not self.has_piece(down_right_2):
@@ -218,12 +246,18 @@ class CheckerBoard():
             if coord[0] == 0 or coord[0] == 1:
                 # when in top two rows
                 return p_jump_moves
-            elif (coord[1] == 0 or coord[1] == 1) and self.has_piece(up_right) and not self.is_current_player_piece(up_right) and not self.has_piece(up_right_2):
-                # when in first two columns
-                p_jump_moves.append( [up_right_2, up_right] )
-            elif (coord[1] == 7 or coord[1] == 6) and self.has_piece(up_left) and not self.is_current_player_piece(up_left) and not self.has_piece(up_left_2):
-                # when in last two columns
-                p_jump_moves.append( [up_left_2, up_left] )
+            elif (coord[1] == 0 or coord[1] == 1):
+                if self.has_piece(up_right) and not self.is_current_player_piece(up_right) and not self.has_piece(up_right_2):
+                    # when in first two columns
+                    p_jump_moves.append( [up_right_2, up_right] )
+                else:
+                    return p_jump_moves
+            elif (coord[1] == 7 or coord[1] == 6):
+                if self.has_piece(up_left) and not self.is_current_player_piece(up_left) and not self.has_piece(up_left_2):
+                    # when in last two columns
+                    p_jump_moves.append( [up_left_2, up_left] )
+                else:
+                    return p_jump_moves
             else:
                 # everywhere else
                 if self.has_piece(up_right) and not self.is_current_player_piece(up_right) and not self.has_piece(up_right_2):
@@ -232,42 +266,58 @@ class CheckerBoard():
                     p_jump_moves.append( [up_left_2, up_left] )
         
         elif piece_color == B_KING or piece_color == W_KING:
-            if ((coord[0] == 0 and coord[1] == 0) or (coord[0] == 1 and coord[1] == 1)) and self.has_piece(down_right) and not self.is_current_player_piece(down_right) and not self.has_piece(down_right_2):
-                # top left corner
-                p_jump_moves.append( [down_right_2, down_right] )
-            elif ((coord[0] == 7 and coord[1] == 7) or (coord[0] == 6 and coord[1] == 6)) and self.has_piece(up_left) and not self.is_current_player_piece(up_left) and not self.has_piece(up_left_2):
-                # bottom right corner
-                p_jump_moves.append( [up_left_2, up_left] )
-            elif ((coord[0] == 6 and coord[1] == 0) or (coord[0] == 7 and coord[1] == 1)) and self.has_piece(up_right) and not self.is_current_player_piece(up_right) and not self.has_piece(up_right_2):
-                # when king is on a7 or b8
-                p_jump_moves.append( [up_right_2, up_right] )
-            elif ((coord[0] == 0 and coord[1] == 6) or (coord[0] == 1 and coord[1] == 7)) and self.has_piece(down_left) and not self.is_current_player_piece(down_left) and not self.has_piece(down_left_2):
-                # when king is on g1 or h2
-                p_jump_moves.append( [down_left_2, down_left] )
+            if ((coord[0] == 0 and coord[1] == 0) or (coord[0] == 1 and coord[1] == 1)):
+                if self.has_piece(down_right) and not self.is_current_player_piece(down_right) and not self.has_piece(down_right_2):
+                    # top left corner
+                    p_jump_moves.append( [down_right_2, down_right] )
+                else:
+                    return p_jump_moves
+            elif ((coord[0] == 7 and coord[1] == 7) or (coord[0] == 6 and coord[1] == 6)):
+                if self.has_piece(up_left) and not self.is_current_player_piece(up_left) and not self.has_piece(up_left_2):
+                    # bottom right corner
+                    p_jump_moves.append( [up_left_2, up_left] )
+                else:
+                    return p_jump_moves
+            elif ((coord[0] == 6 and coord[1] == 0) or (coord[0] == 7 and coord[1] == 1)):
+                if self.has_piece(up_right) and not self.is_current_player_piece(up_right) and not self.has_piece(up_right_2):
+                    # when king is on a7 or b8
+                    p_jump_moves.append( [up_right_2, up_right] )
+                else:
+                    return p_jump_moves
+            elif ((coord[0] == 0 and coord[1] == 6) or (coord[0] == 1 and coord[1] == 7)):
+                if self.has_piece(down_left) and not self.is_current_player_piece(down_left) and not self.has_piece(down_left_2):
+                    # when king is on g1 or h2
+                    p_jump_moves.append( [down_left_2, down_left] )
+                else:
+                    return p_jump_moves
             elif coord[0] == 0 or coord[0] == 1:
                 # when king is in top two rows
                 if self.has_piece(down_right) and not self.is_current_player_piece(down_right) and not self.has_piece(down_right_2):
                     p_jump_moves.append( [down_right_2, down_right] )
                 if self.has_piece(down_left) and not self.is_current_player_piece(down_left) and not self.has_piece(down_left_2):
                     p_jump_moves.append( [down_left_2, down_left] )
+                return p_jump_moves
             elif coord[0] == 7 or coord[0] == 6:
                 # when king is in bottom two rows
                 if self.has_piece(up_right) and not self.is_current_player_piece(up_right) and not self.has_piece(up_right_2):
                     p_jump_moves.append( [up_right_2, up_right] )
                 if self.has_piece(up_left) and not self.is_current_player_piece(up_left) and not self.has_piece(up_left_2):
                     p_jump_moves.append( [up_left_2, up_left] )
+                return p_jump_moves
             elif coord[1] == 0 or coord[1] == 1:
                 # when king is in first two columns
                 if self.has_piece(up_right) and not self.is_current_player_piece(up_right) and not self.has_piece(up_right_2):
                     p_jump_moves.append( [up_right_2, up_right] )
                 if self.has_piece(down_right) and not self.is_current_player_piece(down_right) and not self.has_piece(down_right_2):
                     p_jump_moves.append( [down_right_2, down_right] )
+                return p_jump_moves
             elif coord[1] == 7 or coord[1] == 6:
                 # when king is in last two columns
                 if self.has_piece(up_left) and not self.is_current_player_piece(up_left) and not self.has_piece(up_left_2):
                     p_jump_moves.append( [up_left_2, up_left] )
                 if self.has_piece(down_left) and not self.is_current_player_piece(down_left) and not self.has_piece(down_left_2):
                     p_jump_moves.append( [down_left_2, down_left] )
+                return p_jump_moves
             else:
                 # everywhere else (middle of board)
                 if self.has_piece(down_right) and not self.is_current_player_piece(down_right) and not self.has_piece(down_right_2):
@@ -283,6 +333,8 @@ class CheckerBoard():
 
     def possible_moves(self, piece:str) -> list:
         pass
+
+
 
 
 class Piece():
