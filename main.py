@@ -94,9 +94,9 @@ class CheckerBoard():
 
     def can_move(self, piece:str) -> bool:
         coord = self.convert_checker_coord(piece)
-        avail_spots
+        
         #check if this is a black piece
-        if isinstance(self.board[coord[0]][coord[1]], Piece('b')):
+        if self.board[coord[0]][coord[1]].color == B_PEASANT:
             #check for if a black piece is on the left edge of the board
             if coord[1] == 0 and self.board[coord[0]+1][coord[1]+1] == self.w_space:
                 return True
@@ -111,7 +111,7 @@ class CheckerBoard():
                 return False
 
         #check if this is a white piece
-        elif isinstance(self.board[coord[0]][coord[1]], Piece('w')):
+        elif self.board[coord[0]][coord[1]].color == W_PEASANT:
             #check for if a white piece is on the left edge of a board
             if coord[1] == 0 and self.board[coord[0]-1][coord[1]+1] == self.w_space:
                 return True
