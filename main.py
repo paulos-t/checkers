@@ -26,15 +26,6 @@ class CheckersCLI():
         can_jump = []
         while True:
             self.prompt(new_turn)
-            p_to_move = input("Select a piece to move\n")
-            if not self.game.has_piece(p_to_move):
-                print("No piece at that location")
-                new_turn = False
-                continue
-            elif not self.game.is_current_player_piece(p_to_move):
-                print("That is not your piece")
-                new_turn = False
-                continue
 
             if new_turn:
                 # check if any pieces have possible_jump_moves bc if yes, then only those pieces can move
@@ -47,6 +38,16 @@ class CheckersCLI():
                         if isinstance(spot, Piece) and self.game.is_current_player_piece(coord):
                             if len(self.game.possible_jump_moves(coord)) > 0:
                                 can_jump.append(coord)
+
+            p_to_move = input("Select a piece to move\n")
+            if not self.game.has_piece(p_to_move):
+                print("No piece at that location")
+                new_turn = False
+                continue
+            elif not self.game.is_current_player_piece(p_to_move):
+                print("That is not your piece")
+                new_turn = False
+                continue
 
             p_jump_moves = self.game.possible_jump_moves(p_to_move)
             p_basic_moves = self.game.possible_basic_moves(p_to_move)
