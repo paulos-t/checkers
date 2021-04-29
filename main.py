@@ -34,21 +34,16 @@ class CheckersCLI():
                 continue
 
             # must check if any pieces have jump_moves bc if yes, then only those pieces can move
-            possible_moves = self.game.possible_moves(p_to_move)
-            if len(possible_moves) == 0:
-                print("That piece cannot move")
-                new_turn = False
-                continue
+            # possible_moves = self.game.possible_moves(p_to_move)
+            # if len(possible_moves) == 0:
+            #     print("That piece cannot move")
+            #     new_turn = False
+            #     continue
             else:
-                selected_move = input(possible_moves)
+                # selected_move = input(possible_moves)
                 ## make a move
-                basic_move = self.game.possible_basic_moves(p_to_move)
-                if basic_move:
-                    for i in range(len(basic_move)):
-                        print(str(i) + ": basic move: " + p_to_move + "->" + basic_move[i])
-
-                # print(self.game.possible_basic_moves(p_to_move))
-                # print(self.game.possible_jump_moves(p_to_move))
+                print(self.game.possible_basic_moves(p_to_move))
+                print(self.game.possible_jump_moves(p_to_move))
                 self.game.turn += 1
                 new_turn = True
 
@@ -335,6 +330,7 @@ class CheckerBoard():
                 if self.has_piece(up_left) and not self.is_current_player_piece(up_left) and not self.has_piece(up_left_2):
                     p_jump_moves.append( [up_left_2, up_left] )
         
+        # recursion 
         if len(p_jump_moves) == 0:
             return p_jump_moves
         elif len(p_jump_moves) > 0:
@@ -348,12 +344,7 @@ class CheckerBoard():
             return p_jump_moves
 
     def possible_moves(self, piece:str) -> list:
-        p_basic_moves = self.possible_basic_moves(piece)
-        p_jump_moves = self.possible_jump_moves(piece)
-        if len(p_jump_moves) > 0:
-            while True:
-                pass
-
+        pass
 
 
 
