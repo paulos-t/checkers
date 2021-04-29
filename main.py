@@ -41,8 +41,13 @@ class CheckersCLI():
             else:
                 # selected_move = input(possible_moves)
                 ## make a move
-                print(self.game.possible_basic_moves(p_to_move))
-                print(self.game.possible_jump_moves(p_to_move))
+                basic_move = self.game.possible_basic_moves(p_to_move)
+                if basic_move:
+                    for i in range(len(basic_move)):
+                        print(str(i) + ": basic move: " + p_to_move + "->" + basic_move[i])
+
+                # print(self.game.possible_basic_moves(p_to_move))
+                # print(self.game.possible_jump_moves(p_to_move))
                 self.game.turn += 1
                 new_turn = True
 
