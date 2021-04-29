@@ -33,13 +33,14 @@ class CheckersCLI():
                 new_turn = False
                 continue
 
-            # possible_moves = self.game.possible_moves(p_to_move)
-            # if len(possible_moves) == 0:
-            #     print("That piece cannot move")
-            #     new_turn = False
-            #     continue
+            # must check if any pieces have jump_moves bc if yes, then only those pieces can move
+            possible_moves = self.game.possible_moves(p_to_move)
+            if len(possible_moves) == 0:
+                print("That piece cannot move")
+                new_turn = False
+                continue
             else:
-                # selected_move = input(possible_moves)
+                selected_move = input(possible_moves)
                 ## make a move
                 print(self.game.possible_basic_moves(p_to_move))
                 print(self.game.possible_jump_moves(p_to_move))
@@ -106,7 +107,7 @@ class CheckerBoard():
             else:
                 return False
 
-    def possible_basic_moves(self, piece:str) -> str:
+    def possible_basic_moves(self, piece:str) -> list:
         coord = self.convert_checker_coord(piece)
         piece_color = str(self.board[coord[0]][coord[1]])
         p_basic_moves = []
@@ -205,7 +206,7 @@ class CheckerBoard():
 
         return p_basic_moves
 
-    def possible_jump_moves(self, piece:str) -> str:
+    def possible_jump_moves(self, piece:str) -> list:
         coord = self.convert_checker_coord(piece)
         piece_color = str(self.board[coord[0]][coord[1]])
         p_jump_moves = [] # [ [new location of moved piece, captured piece location] [ , ] ... ]
@@ -329,10 +330,24 @@ class CheckerBoard():
                 if self.has_piece(up_left) and not self.is_current_player_piece(up_left) and not self.has_piece(up_left_2):
                     p_jump_moves.append( [up_left_2, up_left] )
         
-        return p_jump_moves
+        if len(p_jump_moves) == 0:
+            return p_jump_moves
+        elif len(p_jump_moves) > 0:
+            for jump in p_jump_moves:
+                more_jumps = self.possible_jump_moves(jump[0])
+                if len(more_jumps) > 0:
+                    for new_jump in more_jumps:
+                        new_jump.append(p_jump_moves[0][1:])
+                        p_jump_moves.append(new_jump)
+                    p_jump_moves.remove(p_jump_moves[0])
+            return p_jump_moves
 
     def possible_moves(self, piece:str) -> list:
-        pass
+        p_basic_moves = self.possible_basic_moves(piece)
+        p_jump_moves = self.possible_jump_moves(piece)
+        if len(p_jump_moves) > 0:
+            while True:
+                pass
 
 
 
