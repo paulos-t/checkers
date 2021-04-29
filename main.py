@@ -1,3 +1,5 @@
+import copy
+
 B_PEASANT = '\u2688'
 W_PEASANT = '\u2686'
 B_KING = '\u2689'
@@ -41,6 +43,12 @@ class CheckersCLI():
             #     continue
             else:
                 # selected_move = input(possible_moves)
+
+                # basic_move = self.game.possible_basic_moves(p_to_move)
+                # if basic_move:
+                #     for i in range(len(basic_move)):
+                #         print(str(i) + ": basic move: " + p_to_move + "->" + basic_move[i])
+
                 ## make a move
                 print(self.game.possible_basic_moves(p_to_move))
                 print(self.game.possible_jump_moves(p_to_move))
@@ -55,14 +63,14 @@ class CheckerBoard():
     w_space = '\u25fb'
 
     def __init__(self):
-        self.board = [[Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space],
-            [self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b')],
-            [Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space],
+        self.board = [[self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
             [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
             [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
-            [self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w')],
-            [Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space],
-            [self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w')]]
+            [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
+            [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
+            [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
+            [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
+            [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space]]
         self.turn = 1
 
     def __repr__(self):
@@ -106,6 +114,14 @@ class CheckerBoard():
                 return True
             else:
                 return False
+
+    def jump(self, piece:str, jump_to:str, captured_spot:str):
+        coord1 = self.convert_checker_coord(piece)
+        coord2 = self.convert_checker_coord(jump_to)
+        coord3 = self.convert_checker_coord(captured_spot)
+        self.board[coord2[0]][coord2[1]] = self.board[coord1[0]][coord1[1]]
+        self.board[coord1[0]][coord1[1]] = self.w_space
+        self.board[coord3[0]][coord3[1]] = self.w_space
 
     def possible_basic_moves(self, piece:str) -> list:
         coord = self.convert_checker_coord(piece)
@@ -335,7 +351,10 @@ class CheckerBoard():
             return p_jump_moves
         elif len(p_jump_moves) > 0:
             for jump in p_jump_moves:
-                more_jumps = self.possible_jump_moves(jump[0])
+                new_board = CheckerBoard()
+                new_board.board = copy.deepcopy(self.board)
+                new_board.jump(piece, jump[0], jump[-1])
+                more_jumps = new_board.possible_jump_moves(jump[0])
                 if len(more_jumps) > 0:
                     for new_jump in more_jumps:
                         new_jump.append(p_jump_moves[0][1:])
@@ -343,8 +362,12 @@ class CheckerBoard():
                     p_jump_moves.remove(p_jump_moves[0])
             return p_jump_moves
 
-    def possible_moves(self, piece:str) -> list:
-        pass
+    # def possible_moves(self, piece:str) -> list:
+    #     p_basic_moves = self.possible_basic_moves(piece)
+    #     p_jump_moves = self.possible_jump_moves(piece)
+    #     if len(p_jump_moves) > 0:
+    #         while True:
+    #             pass
 
 
 
@@ -361,13 +384,13 @@ class Piece():
     def __repr__(self):
         return self.color
 
-    def move(self):
+    def move(self, move_to):
         pass
 
-    def jump(self):
+    def jump(self, jump_to):
         pass
 
-    def double_jump(self):
+    def double_jump(self, jump_to):
         pass
 
 
@@ -384,13 +407,13 @@ class King(Piece):
     def __repr__(self):
         return self.color
 
-    def move(self):
+    def move(self, move_to):
         return super().move() # can move backwards too
 
-    def jump(self):
+    def jump(self, jump_to):
         return super().jump() # can jump backwards too
 
-    def double_jump(self):
+    def double_jump(self, jump_to):
         return super().double_jump() # can double-jump backwards too
 
 
