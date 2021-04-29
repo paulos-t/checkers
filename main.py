@@ -88,14 +88,14 @@ class CheckerBoard():
     w_space = '\u25fb'
 
     def __init__(self):
-        self.board = [[Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space],
-            [self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b')],
-            [Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space],
+        self.board = [[self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
             [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
             [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
-            [self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w')],
-            [Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space],
-            [self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w')]]
+            [self.b_space, self.w_space, self.b_space, Piece('b'), self.b_space, self.w_space, self.b_space, self.w_space],
+            [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
+            [self.b_space, self.w_space, self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, self.w_space],
+            [self.w_space, self.b_space, King('w'), self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
+            [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space]]
         self.turn = 1
 
     def __repr__(self):
@@ -347,28 +347,32 @@ class CheckerBoard():
                     p_jump_moves.append( [down_right_2, down_right] )
                 if self.has_piece(down_left) and not self.is_current_player_piece(down_left) and not self.has_piece(down_left_2):
                     p_jump_moves.append( [down_left_2, down_left] )
-                return p_jump_moves
+                if len(p_jump_moves) == 0:
+                    return p_jump_moves
             elif coord[0] == 7 or coord[0] == 6:
                 # when king is in bottom two rows
                 if self.has_piece(up_right) and not self.is_current_player_piece(up_right) and not self.has_piece(up_right_2):
                     p_jump_moves.append( [up_right_2, up_right] )
                 if self.has_piece(up_left) and not self.is_current_player_piece(up_left) and not self.has_piece(up_left_2):
                     p_jump_moves.append( [up_left_2, up_left] )
-                return p_jump_moves
+                if len(p_jump_moves) == 0:
+                    return p_jump_moves
             elif coord[1] == 0 or coord[1] == 1:
                 # when king is in first two columns
                 if self.has_piece(up_right) and not self.is_current_player_piece(up_right) and not self.has_piece(up_right_2):
                     p_jump_moves.append( [up_right_2, up_right] )
                 if self.has_piece(down_right) and not self.is_current_player_piece(down_right) and not self.has_piece(down_right_2):
                     p_jump_moves.append( [down_right_2, down_right] )
-                return p_jump_moves
+                if len(p_jump_moves) == 0:
+                    return p_jump_moves
             elif coord[1] == 7 or coord[1] == 6:
                 # when king is in last two columns
                 if self.has_piece(up_left) and not self.is_current_player_piece(up_left) and not self.has_piece(up_left_2):
                     p_jump_moves.append( [up_left_2, up_left] )
                 if self.has_piece(down_left) and not self.is_current_player_piece(down_left) and not self.has_piece(down_left_2):
                     p_jump_moves.append( [down_left_2, down_left] )
-                return p_jump_moves
+                if len(p_jump_moves) == 0:
+                    return p_jump_moves
             else:
                 # everywhere else (middle of board)
                 if self.has_piece(down_right) and not self.is_current_player_piece(down_right) and not self.has_piece(down_right_2):
@@ -381,8 +385,10 @@ class CheckerBoard():
                     p_jump_moves.append( [up_left_2, up_left] )
         
         # recursion 
+        # print(f"Possible jumps{p_jump_moves}")
         if len(p_jump_moves) == 0:
             return p_jump_moves
+
         elif len(p_jump_moves) > 0:
             for jump in p_jump_moves:
                 new_board = CheckerBoard()
@@ -394,6 +400,7 @@ class CheckerBoard():
                         new_jump = new_jump + p_jump_moves[0][1:]
                         p_jump_moves.append(new_jump)
                     p_jump_moves.remove(p_jump_moves[0])
+                    print(f"Possible jumps{p_jump_moves}")
             return p_jump_moves
 
     def display_moves(self, piece:str, moves:list, type:str) -> list:
