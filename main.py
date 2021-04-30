@@ -143,6 +143,9 @@ class CheckerBoard():
     def move(self, piece:str, move_to:str):
         coord1 = self.convert_checker_coord(piece)
         coord2 = self.convert_checker_coord(move_to)
+        # TODO: Peasant becoming king
+        # if str(self.board[coord1[0]][coord1[1]]) == B_PEASANT and coord1[]:
+        #     pass
         self.board[coord2[0]][coord2[1]] = self.board[coord1[0]][coord1[1]]
         self.board[coord1[0]][coord1[1]] = self.w_space
 
@@ -394,6 +397,7 @@ class CheckerBoard():
                         new_jump = new_jump + p_jump_moves[0][1:]
                         p_jump_moves.append(new_jump)
                     p_jump_moves.remove(p_jump_moves[0])
+                    # print(p_jump_moves)
             return p_jump_moves
 
     def display_moves(self, piece:str, moves:list, type:str) -> list:
