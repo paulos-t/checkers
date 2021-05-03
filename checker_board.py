@@ -22,6 +22,7 @@ class CheckerBoard():
             [self.w_space, self.b_space, self.w_space, self.b_space, Piece('b'), self.b_space, self.w_space, self.b_space],
             [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space]]
         self.turn = 1
+        self.turns_without_capture = 0
 
     def __repr__(self):
         i = 1

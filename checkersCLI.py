@@ -6,6 +6,7 @@ B_KING = '\u2689'
 W_KING = '\u2687'
 
 class CheckersCLI():
+
     def __init__(self):
         self.game = CheckerBoard()
         # self.player1 = Player('w')
@@ -28,8 +29,10 @@ class CheckersCLI():
             self.prompt(new_turn)
 
             if new_turn:
-                # check if any pieces have possible_jump_moves bc if yes, then only those pieces can move
+                # check if any pieces have possible jump moves or basic moves
                 can_jump = []
+                can_move = []
+                cannot_move = []
                 for row in self.game.board:
                     row_index = self.game.board.index(row)
                     for spot in row:
@@ -38,6 +41,24 @@ class CheckersCLI():
                         if self.game.has_piece(coord) and self.game.is_current_player_piece(coord):
                             if len(self.game.possible_jump_moves(coord)) > 0:
                                 can_jump.append(coord)
+                            elif len(self.game.possible_basic_moves(coord)) > 0:
+                                can_move.append(coord)
+                            else:
+                                cannot_move.append(coord)
+                if len(can_jump) == len(can_move) == len(cannot_move) == 0:
+                    # other player wins
+                    if self.game.turn % 2 == 1:
+                        print("black has won")
+                        break
+                    elif self.game.turn % 2 == 0:
+                        print("white has won")
+                        break
+                elif (len(can_jump) == len(can_move) == 0) and len(cannot_move) > 0:
+                    print("draw")
+                    break
+                elif self.game.turns_without_capture == 50:
+                    print("draw")
+                    break
 
             p_to_move = input("Select a piece to move\n")
             if not self.game.has_piece(p_to_move):
@@ -59,6 +80,7 @@ class CheckersCLI():
                 # make a move
                 self.game.multi_jump(p_to_move, p_jump_moves[selected_move][0], p_jump_moves[selected_move][1:])
                 self.game.turn += 1
+                self.game.turns_without_capture = 0
                 new_turn = True
                 can_jump = []
 
@@ -77,6 +99,7 @@ class CheckersCLI():
                 # make a move
                 self.game.move(p_to_move, p_basic_moves[selected_move])
                 self.game.turn += 1
+                self.game.turns_without_capture += 1
                 new_turn = True
                 can_jump = []
 

@@ -4,6 +4,7 @@ B_KING = '\u2689'
 W_KING = '\u2687'
 
 class Piece():
+
     def __init__(self, color):
         if color == 'b':
             self.color = B_PEASANT
@@ -27,6 +28,7 @@ class Piece():
 
 
 class King(Piece):
+
     def __init__(self, color):
         if color == 'b':
             self.color = B_KING
