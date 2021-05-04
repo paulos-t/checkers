@@ -14,12 +14,12 @@ class CheckerBoard():
 
     def __init__(self):
         self.board = [[self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
-            [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, Piece('w'), self.b_space, self.w_space],
+            [self.b_space, self.w_space, self.b_space, Piece('w'), self.b_space, self.w_space, self.b_space, self.w_space],
             [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
-            [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, Piece('b')],
-            [self.w_space, self.b_space, Piece('w'), self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
             [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
-            [self.w_space, self.b_space, self.w_space, self.b_space, Piece('b'), self.b_space, self.w_space, self.b_space],
+            [self.w_space, self.b_space, self.w_space, self.b_space, Piece('b'), self.b_space,Piece('b'), self.b_space],
+            [self.b_space, Piece('w'), self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
+            [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
             [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space]]
         self.turn = 1
         self.turns_without_capture = 0
@@ -187,7 +187,7 @@ class CheckerBoard():
                     p_basic_moves.append(self.convert_matrix_coord((coord[0]+1, coord[1]-1)))
                 if self.board[coord[0]+1][coord[1]+1] == self.w_space:
                     p_basic_moves.append(self.convert_matrix_coord((coord[0]+1, coord[1]+1)))
-
+        print(p_basic_moves)
         return p_basic_moves
 
     # def possible_jump_moves(self, piece:str) -> list:
@@ -400,3 +400,8 @@ class CheckerBoard():
                 cap = cap[:-2] + "]"
                 out.append(f"{move[0]}: jump move: {piece}->{move[1][0]}, capturing {cap}")
         return out
+
+
+
+
+    

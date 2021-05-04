@@ -1,4 +1,5 @@
 from checker_board import CheckerBoard
+import random
 
 B_PEASANT = '\u2688'
 W_PEASANT = '\u2686'
@@ -102,6 +103,57 @@ class CheckersCLI():
                 self.game.turns_without_capture += 1
                 new_turn = True
                 can_jump = []
+    def random_player(self, can_jump:list, can_move:list):
+        if can_jump:
+            random_choice = random.choice(can_jump)
+            possible_j_moves = self.game.possible_jump_moves(random_choice)
+            random_dest_selection = random.choice(possible_j_moves)
+            self.game.multi_jump(random_choice,random_dest_selection[0], random_dest_selection[1:])
+        elif can_move:
+            random_choice = random.choice(can_move)
+            possible_b_moves = self.game.possible_basic_moves(random_choice)
+            random_dest_selection = random.choice(possible_b_moves)
+            self.game.move(random_choice,random_dest_selection)
+
+
+    def greedy_player(self, can_jump:list,can_move:list):
+        list_jump_nums = []
+        potential_jump = []
+        final_random_jump_selector = []
+        if can_jump:
+            for i in range(len(can_jump))
+                storage = self.game.possible_jump_moves(can_jump[i])
+                biggest_length = 0
+                for j in range(len(storage)):
+                    if len(storage[j]) >= biggest_length:
+                        biggest_length = len(storage[j])
+                
+                list_jump_nums.append((can_jump[i],biggest_length))
+                biggest_length = 0
+            sorted_by_second = sorted(foo, key=lambda tup: tup[1])
+            biggest_length2 = sorted_by_second[-1][1]
+            for a in range(len(list_jump_nums)):
+                if list_jump_nums[a][1] == biggest_length2:
+                    potential_jump.append(list_jump_nums[a][0])
+            for b in range(len(potential_jump)):
+                holder = self.game.possible_jump_moves(potential_jump[b])
+                for c in range(len(holder)):
+                    if len(holder[c]) == biggest_length2:
+                        final_random_jump_selector.append((potential_jump[b],holder[c]))
+
+            random_jump = random.choice(final_random_jump_selector)
+            self.game.multi_jump(random_jump[0],random_jump[1][0],random_jump[1][1:])
+        elif can_move:
+            random_choice = random.choice(can_move)
+            possible_b_moves = self.game.possible_basic_moves(random_choice)
+            random_dest_selection = random.choice(possible_b_moves)
+            self.game.move(random_choice,random_dest_selection)
+
+
+
+    
+        
+
 
 
 if __name__ == "__main__":
