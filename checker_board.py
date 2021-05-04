@@ -17,7 +17,7 @@ class CheckerBoard():
             [self.b_space, self.w_space, self.b_space, Piece('w'), self.b_space, self.w_space, self.b_space, self.w_space],
             [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
             [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
-            [self.w_space, self.b_space, self.w_space, self.b_space, Piece('b'), self.b_space,Piece('b'), self.b_space],
+            [self.w_space, self.b_space, self.w_space, self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space],
             [self.b_space, Piece('w'), self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
             [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
             [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space]]
@@ -385,6 +385,7 @@ class CheckerBoard():
             for jump in jump_move:
                 temp.append(jump[1])
             out.append(temp)
+        # ret == [ ['c3', 'd6', 'd4], ['g7', 'd6', 'f6'] ]
         return out
 
     def display_moves(self, piece:str, moves:list, type:str) -> list:
@@ -400,8 +401,3 @@ class CheckerBoard():
                 cap = cap[:-2] + "]"
                 out.append(f"{move[0]}: jump move: {piece}->{move[1][0]}, capturing {cap}")
         return out
-
-
-
-
-    

@@ -103,6 +103,8 @@ class CheckersCLI():
                 self.game.turns_without_capture += 1
                 new_turn = True
                 can_jump = []
+
+
     def random_player(self, can_jump:list, can_move:list):
         if can_jump:
             random_choice = random.choice(can_jump)
@@ -121,7 +123,7 @@ class CheckersCLI():
         potential_jump = []
         final_random_jump_selector = []
         if can_jump:
-            for i in range(len(can_jump))
+            for i in range(len(can_jump)):
                 storage = self.game.possible_jump_moves(can_jump[i])
                 biggest_length = 0
                 for j in range(len(storage)):
@@ -148,11 +150,6 @@ class CheckersCLI():
             possible_b_moves = self.game.possible_basic_moves(random_choice)
             random_dest_selection = random.choice(possible_b_moves)
             self.game.move(random_choice,random_dest_selection)
-
-
-
-    
-        
 
 
 

@@ -17,15 +17,6 @@ class Piece():
     def __repr__(self):
         return self.color
 
-    def move(self, move_to):
-        pass
-
-    def jump(self, jump_to):
-        pass
-
-    def double_jump(self, jump_to):
-        pass
-
 
 class King(Piece):
 
@@ -40,12 +31,3 @@ class King(Piece):
 
     def __repr__(self):
         return self.color
-
-    def move(self, move_to):
-        return super().move() # can move backwards too
-
-    def jump(self, jump_to):
-        return super().jump() # can jump backwards too
-
-    def double_jump(self, jump_to):
-        return super().double_jump() # can double-jump backwards too
