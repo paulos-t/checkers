@@ -13,15 +13,6 @@ class CheckerBoard():
     w_space = '\u25fb'
 
     def __init__(self):
-        # TODO: double-jump Bug
-        # self.board = [[Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space],
-        #     [self.b_space, self.w_space, self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b')],
-        #     [Piece('b'), self.b_space, Piece('b'), self.b_space, self.w_space, self.b_space, Piece('b'), self.b_space],
-        #     [self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, self.w_space, self.b_space, self.w_space],
-        #     [self.w_space, self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, self.w_space, self.b_space],
-        #     [self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, self.w_space, self.b_space, Piece('w')],
-        #     [Piece('w'), self.b_space, Piece('w'), self.b_space, self.w_space, self.b_space, Piece('w'), self.b_space],
-        #     [self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w')]] 
         # Test Board
         self.board = [[self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
             [self.b_space, self.w_space, self.b_space, Piece('w'), self.b_space, self.w_space, self.b_space, self.w_space],
@@ -401,6 +392,7 @@ class CheckerBoard():
                     new_move.append(move)
                     new_board = CheckerBoard()
                     new_board.board = copy.deepcopy(board.board)
+                    new_board.turn = board.turn
                     new_board.jump(c_piece, move[0], move[1])
                     recurse(move[0], new_board, new_move)
             elif p_jump_moves:

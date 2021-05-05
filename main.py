@@ -15,7 +15,7 @@ class CheckersCLI():
         self.player2 = player2
         self.history = history
 
-    def prompt(self, new_turn:bool, history:str):
+    def prompt(self, new_turn:bool):
         if new_turn:
             player_turn = ""
             if self.game.turn % 2 == 1:
@@ -24,8 +24,6 @@ class CheckersCLI():
                 player_turn = "black"
             print(self.game)
             print("Turn: " + str(self.game.turn) + ", " + player_turn)
-            if history == "on":
-                print("undo, redo, or next")
 
     def game_check(self) -> list:
         # check if any pieces have possible jump moves or basic moves
@@ -63,7 +61,9 @@ class CheckersCLI():
             self.player2 = Greedy()
 
         while True:
-            self.prompt(new_turn, self.history)
+            self.prompt(new_turn)
+            if self.history == "on":
+                action = input("undo, redo, or next") # FINISH THIS
             if new_turn:
                 status = self.game_check()
                 can_jump, can_move, cannot_move = status[0], status[1], status[2]
@@ -81,6 +81,9 @@ class CheckersCLI():
                 elif self.game.turns_without_capture == 50:
                     print("draw")
                     break
+            
+            # implement undo/redo/next here
+
             if self.game.turn % 2 == 1:
                 new_turn = self.player1.take_turn(self.game, can_jump, can_move)
             elif self.game.turn % 2 == 0:
