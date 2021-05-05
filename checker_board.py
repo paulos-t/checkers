@@ -1,4 +1,4 @@
-from pieces import Piece, King
+from piece import Piece, King
 import copy
 
 B_PEASANT = '\u2688'
@@ -13,6 +13,16 @@ class CheckerBoard():
     w_space = '\u25fb'
 
     def __init__(self):
+        # TODO: double-jump Bug
+        # self.board = [[Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space],
+        #     [self.b_space, self.w_space, self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b')],
+        #     [Piece('b'), self.b_space, Piece('b'), self.b_space, self.w_space, self.b_space, Piece('b'), self.b_space],
+        #     [self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, self.w_space, self.b_space, self.w_space],
+        #     [self.w_space, self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, self.w_space, self.b_space],
+        #     [self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, self.w_space, self.b_space, Piece('w')],
+        #     [Piece('w'), self.b_space, Piece('w'), self.b_space, self.w_space, self.b_space, Piece('w'), self.b_space],
+        #     [self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w')]] 
+        # Test Board
         self.board = [[self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
             [self.b_space, self.w_space, self.b_space, Piece('w'), self.b_space, self.w_space, self.b_space, self.w_space],
             [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
@@ -21,6 +31,15 @@ class CheckerBoard():
             [self.b_space, Piece('w'), self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
             [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
             [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space]]
+        # Normal Board
+        # self.board = [[Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space],
+        #     [self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b')],
+        #     [Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space],
+        #     [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
+        #     [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
+        #     [self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w')],
+        #     [Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space],
+        #     [self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w')]] 
         self.turn = 1
         self.turns_without_capture = 0
 
@@ -187,7 +206,7 @@ class CheckerBoard():
                     p_basic_moves.append(self.convert_matrix_coord((coord[0]+1, coord[1]-1)))
                 if self.board[coord[0]+1][coord[1]+1] == self.w_space:
                     p_basic_moves.append(self.convert_matrix_coord((coord[0]+1, coord[1]+1)))
-        print(p_basic_moves)
+
         return p_basic_moves
 
     # def possible_jump_moves(self, piece:str) -> list:
@@ -338,6 +357,18 @@ class CheckerBoard():
                     p_jump_moves.remove(p_jump_moves[0])
                     # print(f"Possible jumps: {p_jump_moves}") # print statement
             return p_jump_moves
+
+    # def possible_basic_moves(self, piece:str) -> list:
+    #     ret = []
+    #     coord = self.convert_checker_coord(piece)
+    #     piece_color = str(self.board[coord[0]][coord[1]])
+    #     if piece_color == B_PEASANT:
+    #         possible_spots = [(1, 1), (1, -1)]
+    #     elif piece_color == W_PEASANT:
+    #         possible_spots = [(-1, 1), (-1, -1)]
+    #     elif piece_color == B_KING or piece_color == W_KING:
+    #         possible_spots = [(1, 1), (1, -1), (-1, 1), (-1, -1)]
+
 
     def possible_jump_moves(self, piece:str) -> list:
         ret = []
