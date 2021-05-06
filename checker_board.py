@@ -14,25 +14,28 @@ class CheckerBoard():
 
     def __init__(self):
         # Test Board
-        self.board = [[self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
-            [self.b_space, self.w_space, self.b_space, Piece('w'), self.b_space, self.w_space, self.b_space, self.w_space],
-            [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
-            [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
-            [self.w_space, self.b_space, self.w_space, self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space],
-            [self.b_space, Piece('w'), self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
-            [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
-            [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space]]
-        # Normal Board
-        # self.board = [[Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space],
-        #     [self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b')],
-        #     [Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space],
-        #     [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
+        # self.board = [[self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
+        #     [self.b_space, self.w_space, self.b_space, Piece('w'), self.b_space, self.w_space, self.b_space, self.w_space],
         #     [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
-        #     [self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w')],
-        #     [Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space],
-        #     [self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w')]] 
+        #     [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
+        #     [self.w_space, self.b_space, self.w_space, self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space],
+        #     [self.b_space, Piece('w'), self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
+        #     [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
+        #     [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space]]
+        # Normal Board
+        self.board = [[Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space],
+            [self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b')],
+            [Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space],
+            [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
+            [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
+            [self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w')],
+            [Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space],
+            [self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w')]] 
         self.turn = 1
         self.turns_without_capture = 0
+        self.mementos = [Memento(self.board, self.turn, self.turns_without_capture)]
+        self.state_index = -1
+        self.available_redos = 0
 
     def __repr__(self):
         i = 1
@@ -424,3 +427,18 @@ class CheckerBoard():
                 cap = cap[:-2] + "]"
                 out.append(f"{move[0]}: jump move: {piece}->{move[1][0]}, capturing {cap}")
         return out
+
+    def create_memento(self):
+        return Memento(self.board, self.turn, self.turns_without_capture)
+
+    def change_state(self, memento):
+        self.board = memento.board_state
+        self.turn = memento.turn_state
+        self.turns_without_capture = memento.turns_without_capture_state
+
+
+class Memento():
+    def __init__(self, board, turn, turns_without_capture):
+        self.board_state = board
+        self.turn_state = turn
+        self.turns_without_capture_state = turns_without_capture

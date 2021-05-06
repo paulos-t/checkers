@@ -1,6 +1,6 @@
 from checker_board import CheckerBoard
 from player import Human, Random, Greedy
-import sys
+import sys, copy
 
 B_PEASANT = '\u2688'
 W_PEASANT = '\u2686'
@@ -42,6 +42,25 @@ class CheckersCLI():
                         cannot_move.append(coord)
         return [can_jump, can_move, cannot_move]
 
+    def undo_redo_next(self) -> bool:
+        action = input("undo, redo, or next\n")
+        if action == "undo" and len(self.game.mementos) + self.game.state_index >= 0:
+            self.game.state_index -= 1
+            self.game.change_state(self.game.mementos[self.game.state_index])
+            self.game.available_redos += 1
+            return True
+        elif action == "redo" and self.game.available_redos > 0:
+            self.game.state_index += 1
+            self.game.change_state(self.game.mementos[self.game.state_index])
+            self.game.available_redos -= 1
+            return True
+        elif action == "next":
+            if self.game.state_index + 1 < 0:
+                self.game.mementos = copy.deepcopy(self.game.mementos[:(self.game.state_index + 1)])
+            self.game.state_index = -1
+            self.game.available_redos = 0
+            return False
+
     def run(self):
         new_turn = True
         can_jump, can_move = [], []
@@ -62,9 +81,10 @@ class CheckersCLI():
 
         while True:
             self.prompt(new_turn)
-            if self.history == "on":
-                action = input("undo, redo, or next") # FINISH THIS
             if new_turn:
+                if self.history == "on":
+                    if self.undo_redo_next():
+                        continue
                 status = self.game_check()
                 can_jump, can_move, cannot_move = status[0], status[1], status[2]
                 if len(can_jump) == len(can_move) == len(cannot_move) == 0:
@@ -81,13 +101,15 @@ class CheckersCLI():
                 elif self.game.turns_without_capture == 50:
                     print("draw")
                     break
-            
-            # implement undo/redo/next here
 
             if self.game.turn % 2 == 1:
                 new_turn = self.player1.take_turn(self.game, can_jump, can_move)
+                if new_turn:
+                    self.game.mementos.append(self.game.create_memento())
             elif self.game.turn % 2 == 0:
                 new_turn = self.player2.take_turn(self.game, can_jump, can_move)
+                if new_turn:
+                    self.game.mementos.append(self.game.create_memento())
 
 
 
