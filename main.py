@@ -1,4 +1,4 @@
-from checker_board import CheckerBoard
+from board import CheckerBoard
 from player import Human, Random, Greedy
 import sys, copy
 

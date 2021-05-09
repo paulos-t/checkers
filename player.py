@@ -1,4 +1,4 @@
-from checker_board import CheckerBoard
+from board import CheckerBoard
 import random
 
 class Player():
