@@ -1,3 +1,4 @@
+from board import CheckerBoard
 B_PEASANT = '\u2688'
 W_PEASANT = '\u2686'
 B_KING = '\u2689'
@@ -54,17 +55,52 @@ class King(Piece):
 
 
 
+class ChessPiece():
+    # def __init__(self):
+    #     coord = board.convert_checker_coord(piece)
+    #     piece_color = str(board[coord[0]][coord[1]])
+    #     p_basic_moves = []
+    def possible_move(self, board:CheckerBoard, piece:str):
+        pass
 
-class Pawn():
+
+
+
+
+
+
+
+
+class Pawn(ChessPiece):
     def __init__(self,color):
         if color == 'b':
             self.color = B_CHESS_PAWN
+            self.type = 'b'
         elif color == 'w':
             self.color = W_CHESS_PAWN
+            self.type = 'w'
     def __repr__(self):
-        return self.color
+        return self.type
 
-class Knight():
+
+    def possible_move(self, board, piece):
+        coord = board.convert_checker_coord(piece)
+        piece_type = str(board[coord[0]][coord[1]])
+        p_basic_moves = []
+        if piece_type == 'b':
+            if board.has_piece(board[coord[0]+1][coord[1]]):
+                if coord[0] == 1:
+                    p_basic_moves.append(())
+        
+
+            
+
+
+
+
+
+
+class Knight(ChessPiece):
     def __init__(self,color):
         if color == 'b':
             self.color = B_CHESS_KNIGHT
@@ -73,7 +109,7 @@ class Knight():
     def __repr__(self):
         return self.color
 
-class Bishop():
+class Bishop(ChessPiece):
     def __init__(self,color):
         if color == 'b':
             self.color = B_CHESS_BISHOP
@@ -82,7 +118,7 @@ class Bishop():
     def __repr__(self):
         return self.color
 
-class Rook():
+class Rook(ChessPiece):
     def __init__(self,color):
         if color == 'b':
             self.color = B_CHESS_ROOK
@@ -91,7 +127,7 @@ class Rook():
     def __repr__(self):
         return self.color
 
-class Queen():
+class Queen(ChessPiece):
     def __init__(self,color):
         if color == 'b':
             self.color = B_CHESS_QUEEN
@@ -100,7 +136,7 @@ class Queen():
     def __repr__(self):
         return self.color
 
-class ChessKing():
+class ChessKing(ChessPiece):
     def __init__(self,color):
         if color == 'b':
             self.color = B_CHESS_KING

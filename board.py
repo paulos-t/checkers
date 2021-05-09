@@ -77,12 +77,12 @@ class CheckerBoard():
         coord = self.convert_checker_coord(piece)
         piece_color = str(self.board[coord[0]][coord[1]])
         if self.turn % 2 == 1:
-            if piece_color == W_PEASANT or piece_color == W_KING:
+            if piece_color == W_PEASANT or piece_color == W_KING or piece_color == 'w':
                 return True
             else:
                 return False
         elif self.turn % 2 == 0:
-            if piece_color == B_PEASANT or piece_color == B_KING:
+            if piece_color == B_PEASANT or piece_color == B_KING or piece_color == 'b':
                 return True
             else:
                 return False
