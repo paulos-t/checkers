@@ -9,8 +9,8 @@ W_KING = '\u2687'
 
 class CheckersCLI():
 
-    def __init__(self, player1="human", player2="human", history="off"):
-        self.game = CheckerBoard()
+    def __init__(self, type="chess", player1="human", player2="human", history="off"):
+        self.game = CheckerBoard(type)
         self.player1 = player1
         self.player2 = player2
         self.history = history
@@ -115,10 +115,12 @@ class CheckersCLI():
 
 if __name__ == "__main__":
     argc = len(sys.argv)
-    if argc == 3:
-        CheckersCLI(sys.argv[1], sys.argv[2]).run()
+    if argc == 5:
+        CheckersCLI(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]).run()
     elif argc == 4:
         CheckersCLI(sys.argv[1], sys.argv[2], sys.argv[3]).run()
+    elif argc == 3:
+        CheckersCLI(sys.argv[1], sys.argv[2]).run()
     elif argc == 2:
         CheckersCLI(sys.argv[1]).run()
     elif argc == 1:

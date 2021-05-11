@@ -1,4 +1,4 @@
-from piece import Piece, King,Pawn,Knight,Rook,Bishop,Queen,ChessKing
+from piece import Piece, King, ChessPiece, Pawn, Knight, Rook, Bishop, Queen, ChessKing
 import copy
 
 B_PEASANT = '\u2688'
@@ -12,7 +12,7 @@ class CheckerBoard():
     b_space = '\u25fc'
     w_space = '\u25fb'
 
-    def __init__(self):
+    def __init__(self, type):
         # Test Board
         # self.board = [[self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
         #     [self.b_space, self.w_space, self.b_space, Piece('w'), self.b_space, self.w_space, self.b_space, self.w_space],
@@ -22,23 +22,32 @@ class CheckerBoard():
         #     [self.b_space, Piece('w'), self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
         #     [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
         #     [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space]]
-        # Normal Board
-        # self.board = [[Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space],
-        #     [self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b')],
-        #     [Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space],
-        #     [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
-        #     [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
-        #     [self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w')],
-        #     [Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space],
-        #     [self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w')]] 
-        self.board = [[Rook('b'),Knight('b'), Bishop('b'), Queen('b'), ChessKing('b'), Bishop('b'), Knight('b'), Rook('b')],
-            [Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b')],
-            [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
+        if type == "checkers":
+            self.board = [[Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space],
+                [self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b')],
+                [Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space],
+                [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
+                [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
+                [self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w')],
+                [Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space],
+                [self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w')]]
+        elif type == "chess":
+            self.board = [[Rook('b'),Knight('b'), Bishop('b'), Queen('b'), ChessKing('b'), Bishop('b'), Knight('b'), Rook('b')],
+                [Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b')],
+                [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
+                [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
+                [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
+                [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
+                [Pawn('w'), Pawn('w'), Pawn('w'), Pawn('w'), Pawn('w'), Pawn('w'), Pawn('w'), Pawn('w')],
+                [Rook('w'),Knight('w'), Bishop('w'), Queen('w'), ChessKing('w'), Bishop('w'), Knight('w'), Rook('w')]]
+        self.blank_board = [[self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
             [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
             [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
             [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
-            [Pawn('w'), Pawn('w'), Pawn('w'), Pawn('w'), Pawn('w'), Pawn('w'), Pawn('w'), Pawn('w')],
-            [Rook('w'),Knight('w'), Bishop('w'), Queen('w'), ChessKing('w'), Bishop('w'), Knight('w'), Rook('w')]]
+            [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
+            [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
+            [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
+            [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space]]
         self.turn = 1
         self.turns_without_capture = 0
         self.mementos = [Memento(self.board, self.turn, self.turns_without_capture)]
@@ -71,7 +80,8 @@ class CheckerBoard():
 
     def has_piece(self, spot:str) -> bool:
         coord = self.convert_checker_coord(spot)
-        return isinstance(self.board[coord[0]][coord[1]], Piece)
+        ret = isinstance(self.board[coord[0]][coord[1]], Piece) or isinstance(self.board[coord[0]][coord[1]], ChessPiece)
+        return ret
 
     def is_current_player_piece(self, piece:str) -> bool:
         coord = self.convert_checker_coord(piece)
@@ -99,8 +109,9 @@ class CheckerBoard():
             self.board[coord1[0]][coord1[1]] = self.w_space
         else:
             self.board[coord2[0]][coord2[1]] = self.board[coord1[0]][coord1[1]]
-            self.board[coord1[0]][coord1[1]] = self.w_space
+            self.board[coord1[0]][coord1[1]] = self.blank_board[coord1[0]][coord1[1]]
 
+    ## -- Checkers Specifc -- ##
     def jump(self, piece:str, jump_to:str, captured_piece:str):
         self.move(piece, jump_to)
         coord3 = self.convert_checker_coord(captured_piece)
@@ -371,7 +382,6 @@ class CheckerBoard():
     #     elif piece_color == B_KING or piece_color == W_KING:
     #         possible_spots = [(1, 1), (1, -1), (-1, 1), (-1, -1)]
 
-
     def possible_jump_moves(self, piece:str) -> list:
         ret = []
         coord = self.convert_checker_coord(piece)
@@ -421,6 +431,7 @@ class CheckerBoard():
             out.append(temp)
         # ret == [ ['c3', 'd6', 'd4], ['g7', 'd6', 'f6'] ]
         return out
+    ## -- -- ##
 
     def display_moves(self, piece:str, moves:list, type:str) -> list:
         out = []
@@ -434,7 +445,13 @@ class CheckerBoard():
                     cap = cap + x + ", "
                 cap = cap[:-2] + "]"
                 out.append(f"{move[0]}: jump move: {piece}->{move[1][0]}, capturing {cap}")
+        elif type == "chessmove":
+            pass
+            ## finish
         return out
+
+
+    ## Fix undo/redo ##
 
     def create_memento(self):
         return Memento(self.board, self.turn, self.turns_without_capture)
