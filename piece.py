@@ -1,4 +1,4 @@
-from board import CheckerBoard
+# from board import CheckerBoard
 B_PEASANT = '\u2688'
 W_PEASANT = '\u2686'
 B_KING = '\u2689'
@@ -57,7 +57,7 @@ class ChessPiece():
     def __init__(self):
         self.value = 0
 
-    def possible_moves(self, board:CheckerBoard, piece:str):
+    def possible_moves(self, board, piece:str):
         pass
 
     def get_value(self):
@@ -77,7 +77,7 @@ class Pawn(ChessPiece):
     def __repr__(self):
         return self.color
 
-    def possible_moves(self, board:CheckerBoard, piece):
+    def possible_moves(self, board, piece):
         coord = board.convert_checker_coord(piece)
         piece_color = str(board[coord[0]][coord[1]])
         p_basic_moves = []

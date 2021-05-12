@@ -4,8 +4,8 @@ import random
 class Player():
     def __init__(self):
         self.game = None
-        seed = str(open("seed.txt"))
-        random.seed(seed)
+        # seed = str(open("seed.txt"))
+        # random.seed(seed)
     
     def take_turn(self):
         pass
@@ -86,24 +86,39 @@ class Greedy(Player):
         if can_jump:
             for i in range(len(can_jump)):
                 storage = self.game.possible_jump_moves(can_jump[i])
-                biggest_length = 0
+                biggest_val = 0
+                net_value = 0
                 for j in range(len(storage)):
-                    if len(storage[j]) >= biggest_length:
-                        biggest_length = len(storage[j])
+                    for k in range(1,len(storage[j])):
+                        coord = self.game.convert_checker_coord(storage[j][k])
+                        net_value += self.game.board[coord[0]][coord[1]].value
+                    if net_value > biggest_val:
+                        biggest_val = net_value
+                        net_value =0
+                    
+                    # if sum(storage[j]) >= biggest_val:
+                    #     biggest_val = len(storage[j])
                 
-                list_jump_nums.append((can_jump[i],biggest_length))
-                biggest_length = 0
+                list_jump_nums.append((can_jump[i],biggest_val))
+                    
+                biggest_val = 0
             sorted_by_second = sorted(list_jump_nums, key=lambda tup: tup[1])
-            biggest_length2 = sorted_by_second[-1][1]
+            biggest_val2 = sorted_by_second[-1][1]
+            net_value2 = 0
             for a in range(len(list_jump_nums)):
-                if list_jump_nums[a][1] == biggest_length2:
+                if list_jump_nums[a][1] == biggest_val2:
                     potential_jump.append(list_jump_nums[a][0])
             for b in range(len(potential_jump)):
                 holder = self.game.possible_jump_moves(potential_jump[b])
                 for c in range(len(holder)):
-                    if len(holder[c]) == biggest_length2:
+                    for d in range(1,len(holder[c])):
+                        coord = self.game.convert_checker_coord(holder[c][d])
+                        net_value2 += self.game.board[coord[0]][coord[1]].value
+                    if net_value2 == biggest_val2:
+                        # biggest_val = net_value
+                    # if len(holder[c]) == biggest_length2:
                         final_random_jump_selector.append((potential_jump[b],holder[c]))
-
+                    net_value2 = 0
             random_jump = random.choice(final_random_jump_selector)
             self.game.multi_jump(random_jump[0],random_jump[1][0],random_jump[1][1:])
             self.game.turn += 1
