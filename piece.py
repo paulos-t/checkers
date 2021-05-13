@@ -91,12 +91,10 @@ class Pawn(ChessPiece):
         if board.has_piece(board[coord[0] + basic_movement[0]][coord[1]]):
             # if piece right in front
             return p_basic_moves
-        elif not board.has_piece(board[coord[0] + basic_movement[0]*2][coord[1]]):
-            # if no piece two spaces in front
-            if piece_color == "b" and coord[0] == 1:
-                p_basic_moves.append((board.convert_matrix_coord((coord[0] + basic_movement[0], coord[1])), 0))
-                p_basic_moves.append((board.convert_matrix_coord((coord[0] + basic_movement[0]*2, coord[1])), 0))
-            elif piece_color == "w" and coord[0] == 6:
+        elif (piece_color == "b" and coord[0] == 1) or (piece_color == "w" and coord[0] == 6):
+            # if in starting row
+            if not board.has_piece(board[coord[0] + basic_movement[0]*2][coord[1]]):
+                # if no piece two spaces in front
                 p_basic_moves.append((board.convert_matrix_coord((coord[0] + basic_movement[0], coord[1])), 0))
                 p_basic_moves.append((board.convert_matrix_coord((coord[0] + basic_movement[0]*2, coord[1])), 0))
 
@@ -157,9 +155,19 @@ class Bishop(ChessPiece):
 
     def possible_moves(self, board, piece):
         coord = board.convert_checker_coord(piece)
-        piece_color = str(board[coord[0]][coord[1]])
         p_basic_moves = []
 
+        movement = [(1, 1), (1, -1), (-1, 1), (-1, -1)]
+        for direction in movement:
+            temp_coord = (coord[0], coord[1])
+            while True:
+                if temp_coord[0] + direction[0] > 7 or temp_coord[0] + direction[0] < 0 or \
+                    temp_coord[1] + direction[1] > 7 or temp_coord[1] + direction[1] < 0:
+                    break
+                temp_coord[0] = temp_coord[0] + direction[0]
+                temp_coord[1] = temp_coord[1] + direction[1]
+                if not board.has_piece(board[0]):
+                    pass ## WORK IN PROGRESS
 
 class Rook(ChessPiece):
     def __init__(self, color):

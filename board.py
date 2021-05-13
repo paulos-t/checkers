@@ -5,6 +5,8 @@ B_PEASANT = '\u2688'
 W_PEASANT = '\u2686'
 B_KING = '\u2689'
 W_KING = '\u2687'
+B_CHESS_PAWN = '\u265F'
+W_CHESS_PAWN = '\u2659'
 
 class CheckerBoard():
 
@@ -13,17 +15,7 @@ class CheckerBoard():
     w_space = '\u25fb'
 
     def __init__(self, type):
-        # Test Board
-        
         if type == "checkers":
-            # self.board = [[self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
-            # [self.b_space, self.w_space, self.b_space, Piece('w'), self.b_space, self.w_space, self.b_space, self.w_space],
-            # [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space,King('b'), self.b_space],
-            # [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
-            # [self.w_space, self.b_space, King('b'), self.b_space, self.w_space, self.b_space, King('b'), self.b_space],
-            # [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
-            # [self.w_space, self.b_space, King('b'), self.b_space, King('b'), self.b_space, self.w_space, self.b_space],
-            # [self.b_space, self.w_space, self.b_space, Piece('w'), self.b_space, self.w_space, self.b_space, self.w_space]]
             self.board = [[Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space],
                 [self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b')],
                 [Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space, Piece('b'), self.b_space],
@@ -32,6 +24,15 @@ class CheckerBoard():
                 [self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w')],
                 [Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space],
                 [self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w'), self.b_space, Piece('w')]]
+            # Checkers Test Board
+            # self.board = [[self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
+            # [self.b_space, self.w_space, self.b_space, Piece('w'), self.b_space, self.w_space, self.b_space, self.w_space],
+            # [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space,King('b'), self.b_space],
+            # [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
+            # [self.w_space, self.b_space, King('b'), self.b_space, self.w_space, self.b_space, King('b'), self.b_space],
+            # [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
+            # [self.w_space, self.b_space, King('b'), self.b_space, King('b'), self.b_space, self.w_space, self.b_space],
+            # [self.b_space, self.w_space, self.b_space, Piece('w'), self.b_space, self.w_space, self.b_space, self.w_space]]
         elif type == "chess":
             self.board = [[Rook('b'),Knight('b'), Bishop('b'), Queen('b'), ChessKing('b'), Bishop('b'), Knight('b'), Rook('b')],
                 [Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b')],
@@ -41,6 +42,15 @@ class CheckerBoard():
                 [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
                 [Pawn('w'), Pawn('w'), Pawn('w'), Pawn('w'), Pawn('w'), Pawn('w'), Pawn('w'), Pawn('w')],
                 [Rook('w'),Knight('w'), Bishop('w'), Queen('w'), ChessKing('w'), Bishop('w'), Knight('w'), Rook('w')]]
+            # Chess Test Board
+            # self.board = [[Rook('b'),Knight('b'), Bishop('b'), Queen('b'), ChessKing('b'), Bishop('b'), Knight('b'), Rook('b')],
+            #     [Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b')],
+            #     [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
+            #     [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
+            #     [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
+            #     [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
+            #     [Pawn('w'), Pawn('w'), Pawn('w'), Pawn('w'), Pawn('w'), Pawn('w'), Pawn('w'), Pawn('w')],
+            #     [Rook('w'),Knight('w'), Bishop('w'), Queen('w'), ChessKing('w'), Bishop('w'), Knight('w'), Rook('w')]]
         self.blank_board = [[self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
             [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
             [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
@@ -101,13 +111,19 @@ class CheckerBoard():
     def move(self, piece:str, move_to:str):
         coord1 = self.convert_checker_coord(piece)
         coord2 = self.convert_checker_coord(move_to)
-        # peasant becoming king
+        # peasant becoming king or pawn becoming queen
         if str(self.board[coord1[0]][coord1[1]]) == B_PEASANT and coord2[0] == 7:
             self.board[coord2[0]][coord2[1]] = King('b')
             self.board[coord1[0]][coord1[1]] = self.w_space
         elif str(self.board[coord1[0]][coord1[1]]) == W_PEASANT and coord2[0] == 0:
             self.board[coord2[0]][coord2[1]] = King('w')
             self.board[coord1[0]][coord1[1]] = self.w_space
+        elif self.board[coord1[0]][coord1[1]].type == B_CHESS_PAWN and coord2[0] == 7:
+            self.board[coord2[0]][coord2[1]] = ChessKing('b')
+            self.board[coord1[0]][coord1[1]] = self.blank_board[coord1[0]][coord1[1]]
+        elif self.board[coord1[0]][coord1[1]].type == W_CHESS_PAWN and coord2[0] == 0:
+            self.board[coord2[0]][coord2[1]] = ChessKing('b')
+            self.board[coord1[0]][coord1[1]] = self.blank_board[coord1[0]][coord1[1]]
         else:
             self.board[coord2[0]][coord2[1]] = self.board[coord1[0]][coord1[1]]
             self.board[coord1[0]][coord1[1]] = self.blank_board[coord1[0]][coord1[1]]
@@ -449,8 +465,8 @@ class CheckerBoard():
                 cap = cap[:-2] + "]"
                 out.append(f"{move[0]}: jump move: {piece}->{move[1][0]}, capturing {cap}")
         elif type == "chessmove":
-            pass
-            ## Finish
+            for move in enumerate(moves):
+                out.append(f"{move[0]}: move: {piece}->{move[move[1][0]]}")
         return out
 
 
