@@ -112,6 +112,7 @@ class CheckerBoard():
             self.board[coord2[0]][coord2[1]] = self.board[coord1[0]][coord1[1]]
             self.board[coord1[0]][coord1[1]] = self.blank_board[coord1[0]][coord1[1]]
 
+
     ## -- Checkers Specifc -- ##
     def jump(self, piece:str, jump_to:str, captured_piece:str):
         self.move(piece, jump_to)
@@ -434,6 +435,7 @@ class CheckerBoard():
         return out
     ## -- -- ##
 
+
     def display_moves(self, piece:str, moves:list, type:str) -> list:
         out = []
         if type == "basic":
@@ -448,7 +450,7 @@ class CheckerBoard():
                 out.append(f"{move[0]}: jump move: {piece}->{move[1][0]}, capturing {cap}")
         elif type == "chessmove":
             pass
-            ## finish
+            ## Finish
         return out
 
 

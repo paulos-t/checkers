@@ -1,4 +1,3 @@
-# from board import CheckerBoard
 B_PEASANT = '\u2688'
 W_PEASANT = '\u2686'
 B_KING = '\u2689'
@@ -115,44 +114,105 @@ class Pawn(ChessPiece):
 class Knight(ChessPiece):
     def __init__(self, color):
         if color == 'b':
-            self.color = B_CHESS_KNIGHT
-        elif color =='w':
-            self.color = W_CHESS_KNIGHT
+            self.type = B_CHESS_KNIGHT
+            self.color = 'b'
+        elif color == 'w':
+            self.type = W_CHESS_KNIGHT
+            self.color = 'w'
+        self.value = 3
+
     def __repr__(self):
         return self.color
+
+    def possible_moves(self, board, piece):
+        coord = board.convert_checker_coord(piece)
+        p_basic_moves = []
+
+        movement = [(2, 1), (2, -1), (1, 2), (1, -2), (-2, 1), (-2, -1), (-1, 2), (-1, -2)]
+        for move in movement:
+            if coord[0] + move[0] > 7 or coord[0] + move[0] < 0 or coord[1] + move[1] > 7 or coord[1] + move[1] < 0:
+                continue
+            elif not board.has_piece(board[coord[0] + move[0]][coord[1] + move[1]]):
+                p_basic_moves.append((board.convert_matrix_coord((coord[0] + move[0], coord[1] + move[0])), 0))
+            elif board.has_piece(board[coord[0] + move[0]][coord[1] + move[1]]) and \
+                not board.is_current_player_piece(board[coord[0] + move[0]][coord[1] + move[1]]):
+                p_basic_moves.append(
+                    (board.convert_matrix_coord((coord[0] + move[0], coord[1] + move[0])), \
+                        board[coord[0] + move[0]][coord[1] + move[1]].get_value()))
+        return p_basic_moves
+
 
 class Bishop(ChessPiece):
     def __init__(self, color):
         if color == 'b':
-            self.color = B_CHESS_BISHOP
-        elif color =='w':
-            self.color = W_CHESS_BISHOP
+            self.type = B_CHESS_BISHOP
+            self.color = 'b'
+        elif color == 'w':
+            self.type = W_CHESS_BISHOP
+            self.color = 'w'
+        self.value = 3
+
     def __repr__(self):
         return self.color
+
+    def possible_moves(self, board, piece):
+        coord = board.convert_checker_coord(piece)
+        piece_color = str(board[coord[0]][coord[1]])
+        p_basic_moves = []
+
 
 class Rook(ChessPiece):
     def __init__(self, color):
         if color == 'b':
-            self.color = B_CHESS_ROOK
-        elif color =='w':
-            self.color = W_CHESS_ROOK
+            self.type = B_CHESS_ROOK
+            self.color = 'b'
+        elif color == 'w':
+            self.type = W_CHESS_ROOK
+            self.color = 'w'
+        self.value = 5
+
     def __repr__(self):
         return self.color
+
+    def possible_moves(self, board, piece):
+        coord = board.convert_checker_coord(piece)
+        piece_color = str(board[coord[0]][coord[1]])
+        p_basic_moves = []
+
 
 class Queen(ChessPiece):
     def __init__(self, color):
         if color == 'b':
-            self.color = B_CHESS_QUEEN
+            self.type = B_CHESS_QUEEN
+            self.color = 'b'
         elif color == 'w':
-            self.color = W_CHESS_QUEEN
+            self.type = W_CHESS_QUEEN
+            self.color = 'w'
+        self.value = 9
+
     def __repr__(self):
         return self.color
+
+    def possible_moves(self, board, piece):
+        coord = board.convert_checker_coord(piece)
+        piece_color = str(board[coord[0]][coord[1]])
+        p_basic_moves = []
+
 
 class ChessKing(ChessPiece):
     def __init__(self, color):
         if color == 'b':
-            self.color = B_CHESS_KING
-        elif color =='w':
-            self.color = W_CHESS_KING
+            self.type = B_CHESS_KING
+            self.color = 'b'
+        elif color == 'w':
+            self.type = W_CHESS_KING
+            self.color = 'w'
+        self.value = 100
+
     def __repr__(self):
         return self.color
+
+    def possible_moves(self, board, piece):
+        coord = board.convert_checker_coord(piece)
+        piece_color = str(board[coord[0]][coord[1]])
+        p_basic_moves = []
