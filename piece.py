@@ -88,12 +88,12 @@ class Pawn(ChessPiece):
             basic_movement = (-1, 0)
             capture_movement = [(-1, 1), (-1, -1)]
 
-        if board.has_piece(board.convert_matrix_coord((coord[0] + basic_movement[0],coord[1]))):
+        if board.has_piece(board.convert_matrix_coord((coord[0] + basic_movement[0], coord[1]))):
             # if piece right in front
             return p_basic_moves
         elif (piece_color == "b" and coord[0] == 1) or (piece_color == "w" and coord[0] == 6):
             # if in starting row
-            if not board.has_piece(board.convert_matrix_coord((coord[0] + basic_movement[0]*2,coord[1]))):
+            if not board.has_piece(board.convert_matrix_coord((coord[0] + basic_movement[0]*2, coord[1]))):
                 # if no piece two spaces in front
                 p_basic_moves.append((board.convert_matrix_coord((coord[0] + basic_movement[0], coord[1])), 0))
                 p_basic_moves.append((board.convert_matrix_coord((coord[0] + basic_movement[0]*2, coord[1])), 0))
@@ -101,8 +101,8 @@ class Pawn(ChessPiece):
         for move in capture_movement:
             if coord[0] + move[0] > 7 or coord[0] + move[0] < 0 or coord[1] + move[1] > 7 or coord[1] + move[1] < 0:
                 continue
-            if board.has_piece(board.convert_matrix_coord((coord[0] + move[0],coord[1] + move[1]))) and \
-                not board.is_current_player_piece(board.convert_matrix_coord((coord[0] + move[0],coord[1] + move[1]))):
+            if board.has_piece(board.convert_matrix_coord((coord[0] + move[0], coord[1] + move[1]))) and \
+                not board.is_current_player_piece(board.convert_matrix_coord((coord[0] + move[0], coord[1] + move[1]))):
                 # if captureable piece diagonally in front
                 p_basic_moves.append(
                     (board.convert_matrix_coord((coord[0] + move[0], coord[1] + move[0])), \
@@ -132,12 +132,12 @@ class Knight(ChessPiece):
         for move in movement:
             if coord[0] + move[0] > 7 or coord[0] + move[0] < 0 or coord[1] + move[1] > 7 or coord[1] + move[1] < 0:
                 continue
-            elif not board.has_piece(board.convert_matrix_coord((coord[0] + move[0],coord[1] + move[1]))):
-                p_basic_moves.append((board.convert_matrix_coord((coord[0] + move[0], coord[1] + move[0])), 0))
-            elif board.has_piece(board.convert_matrix_coord((coord[0] + move[0],coord[1] + move[1]))) and \
-                not board.is_current_player_piece(board.convert_matrix_coord((coord[0] + move[0],coord[1] + move[1]))):
+            elif not board.has_piece(board.convert_matrix_coord((coord[0] + move[0], coord[1] + move[1]))):
+                p_basic_moves.append((board.convert_matrix_coord((coord[0] + move[0], coord[1] + move[1])), 0))
+            elif board.has_piece(board.convert_matrix_coord((coord[0] + move[0], coord[1] + move[1]))) and \
+                not board.is_current_player_piece(board.convert_matrix_coord((coord[0] + move[0], coord[1] + move[1]))):
                 p_basic_moves.append(
-                    (board.convert_matrix_coord((coord[0] + move[0], coord[1] + move[0])), \
+                    (board.convert_matrix_coord((coord[0] + move[0], coord[1] + move[1])), \
                         board.board[coord[0] + move[0]][coord[1] + move[1]].get_value()))
         return p_basic_moves
 
