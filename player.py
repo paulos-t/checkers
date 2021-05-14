@@ -144,17 +144,17 @@ class GreedyChess(Player):
         for i in range(len(chess_can_move)):
             coord = self.game.convert_checker_coord(chess_can_move[i])
             piece = self.game.board[coord[0]][coord[1]]
-            p_moves_i = piece.possible_moves(chess_can_move[i])
+            p_moves_i = piece.possible_moves(self.game,chess_can_move[i])
             for j in range(len(p_moves_i)):
                 if p_moves_i[j][1] >= best_piece_val:
                     best_piece_val = p_moves_i[j][1]
         for k in range(len(chess_can_move)):
             coord = self.game.convert_checker_coord(chess_can_move[k])
             piece = self.game.board[coord[0]][coord[1]]
-            p_moves_k = piece.possible_moves(chess_can_move[k])
+            p_moves_k = piece.possible_moves(self.game,chess_can_move[k])
             for l in range(len(p_moves_k)):
                 if p_moves_k[l][1] == best_piece_val:
-                    possible_m.append((chess_can_move[k],p_moves_k[k]))
+                    possible_m.append((chess_can_move[k],p_moves_k[l]))
         move_selector = random.choice(possible_m)
         self.game.move(move_selector[0],move_selector[1][0])
         print("move: " + move_selector[0] + "->"+ move_selector[1][0])
@@ -172,7 +172,7 @@ class RandomChess(Player):
         p_random_move = random.choice(chess_can_move)
         coord = self.game.convert_checker_coord(p_random_move)
         piece = self.game.board[coord[0]][coord[1]]
-        p_moves_i = piece.possible_moves(p_random_move)
+        p_moves_i = piece.possible_moves(self.game,p_random_move)
         p_moves_i_random = random.choice(p_moves_i)
         self.game.move(p_random_move,p_moves_i_random[0])
         print("move: " + p_random_move + "->"+ p_moves_i_random[0])

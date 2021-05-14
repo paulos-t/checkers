@@ -34,14 +34,22 @@ class CheckerBoard():
             # [self.w_space, self.b_space, King('b'), self.b_space, King('b'), self.b_space, self.w_space, self.b_space],
             # [self.b_space, self.w_space, self.b_space, Piece('w'), self.b_space, self.w_space, self.b_space, self.w_space]]
         elif type == "chess":
-            self.board = [[Rook('b'),Knight('b'), Bishop('b'), Queen('b'), ChessKing('b'), Bishop('b'), Knight('b'), Rook('b')],
+            # self.board = [[Rook('b'),Knight('b'), Bishop('b'), Queen('b'), ChessKing('b'), Bishop('b'), Knight('b'), Rook('b')],
+            #     [Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b')],
+            #     [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
+            #     [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
+            #     [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
+            #     [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
+            #     [Pawn('w'), Pawn('w'), Pawn('w'), Pawn('w'), Pawn('w'), Pawn('w'), Pawn('w'), Pawn('w')],
+            #     [Rook('w'),Knight('w'), Bishop('w'), Queen('w'), ChessKing('w'), Bishop('w'), Knight('w'), Rook('w')]]
+            self.board =[[Knight('b'),Knight('b'), Knight('b'), Knight('b'), Knight('b'), Knight('b'), Knight('b'), Knight('b')],
                 [Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b')],
                 [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
                 [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
                 [self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space],
                 [self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space, self.b_space, self.w_space],
                 [Pawn('w'), Pawn('w'), Pawn('w'), Pawn('w'), Pawn('w'), Pawn('w'), Pawn('w'), Pawn('w')],
-                [Rook('w'),Knight('w'), Bishop('w'), Queen('w'), ChessKing('w'), Bishop('w'), Knight('w'), Rook('w')]]
+                [Knight('w'),Knight('w'), Knight('w'), Knight('w'), Knight('w'), Knight('w'), Knight('w'), Knight('w')]]
             # Chess Test Board
             # self.board = [[Rook('b'),Knight('b'), Bishop('b'), Queen('b'), ChessKing('b'), Bishop('b'), Knight('b'), Rook('b')],
             #     [Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b'), Pawn('b')],

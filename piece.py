@@ -24,8 +24,10 @@ class Piece():
     def __init__(self, color):
         if color == 'b':
             self.color = B_PEASANT
+            self.type = B_PEASANT
         elif color == 'w':
             self.color = W_PEASANT
+            # self.type = W_PEASANT
         else:
             self.color = None
             print("Invalid color")
@@ -39,8 +41,10 @@ class King(Piece):
     def __init__(self, color):
         if color == 'b':
             self.color = B_KING
+            self.type = B_KING
         elif color == 'w':
             self.color = W_KING
+            self.type = W_KING
         else:
             self.color = None
             print("Invalid color")
