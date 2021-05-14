@@ -4,8 +4,8 @@ import random
 class Player():
     def __init__(self):
         self.game = None
-        # seed = str(open("seed.txt"))
-        # random.seed(seed)
+        seed = str(open("seed.txt"))
+        random.seed(seed)
     
     def take_turn(self):
         pass
