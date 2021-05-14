@@ -172,6 +172,7 @@ class Bishop(ChessPiece):
         #             pass ## WORK IN PROGRESS
         return p_basic_moves
 
+
 class Rook(ChessPiece):
     def __init__(self, color):
         if color == 'b':
@@ -189,6 +190,7 @@ class Rook(ChessPiece):
         coord = board.convert_checker_coord(piece)
         piece_color = str(board.board[coord[0]][coord[1]])
         p_basic_moves = []
+
         return p_basic_moves
 
 
@@ -209,6 +211,7 @@ class Queen(ChessPiece):
         coord = board.convert_checker_coord(piece)
         piece_color = str(board.board[coord[0]][coord[1]])
         p_basic_moves = []
+
         return p_basic_moves
 
 
@@ -229,4 +232,5 @@ class ChessKing(ChessPiece):
         coord = board.convert_checker_coord(piece)
         piece_color = str(board.board[coord[0]][coord[1]])
         p_basic_moves = []
+
         return p_basic_moves

@@ -1,6 +1,6 @@
 from board import CheckerBoard
 from player import Human, Random, Greedy, HumanChess, RandomChess, GreedyChess
-import sys, copy
+import sys, copy, re
 
 B_PEASANT = '\u2688'
 W_PEASANT = '\u2686'
@@ -34,15 +34,11 @@ class CheckersCLI():
                 for spot in row:
                     spot_index = list(row).index(spot)
                     coord = self.game.convert_matrix_coord((row_index, spot_index))
- 
                     if self.game.has_piece(coord) and self.game.is_current_player_piece(coord):
-                        
                         if len(self.game.board[row_index][spot_index].possible_moves(self.game, coord)) > 0:
-                            
                             chess_can_move.append(coord)
                         else:
                             chess_cannot_move.append(coord)
-            
             return [chess_can_move, chess_cannot_move]
         elif self.type == "checkers":
             # check if any pieces have possible jump moves or basic moves
@@ -93,6 +89,8 @@ class CheckersCLI():
                 self.player1 = RandomChess()
             elif self.player1 == "greedy":
                 self.player1 = GreedyChess()
+            elif re.search("^minimax", self.player1):
+                self.player1 = GreedyChess()
 
             if self.player2 == "human":
                 self.player2 = HumanChess()
@@ -100,7 +98,9 @@ class CheckersCLI():
                 self.player2 = RandomChess()
             elif self.player2 == "greedy":
                 self.player2 = GreedyChess()
-        
+            elif re.search("^minimax", self.player2):
+                self.player2 = GreedyChess()
+
         if self.type == "checkers":
             if self.player1 == "human":
                 self.player1 = Human()
@@ -108,12 +108,16 @@ class CheckersCLI():
                 self.player1 = Random()
             elif self.player1 == "greedy":
                 self.player1 = Greedy()
+            elif re.search("^minimax", self.player1):
+                self.player1 = Greedy()
 
             if self.player2 == "human":
                 self.player2 = Human()
             elif self.player2 == "random":
                 self.player2 = Random()
             elif self.player2 == "greedy":
+                self.player2 = Greedy()
+            elif re.search("^minimax", self.player2):
                 self.player2 = Greedy()
 
         while True:
@@ -141,8 +145,6 @@ class CheckersCLI():
                         print("draw")
                         break
 
-                    
-
                 elif self.type == "checkers":
                     can_jump, can_move, cannot_move = status[0], status[1], status[2]
                     if len(can_jump) == len(can_move) == len(cannot_move) == 0:
@@ -166,19 +168,20 @@ class CheckersCLI():
                     new_turn = self.player1.take_turn(self.game, chess_can_move)
                     if new_turn:
                         self.game.mementos.append(self.game.create_memento())
-                    elif self.game.turn % 2 == 0:
-                        new_turn = self.player2.take_turn(self.game, chess_can_move)
-                        if new_turn:
-                            self.game.mementos.append(self.game.create_memento())
-            if self.type == "checkers":
+                elif self.game.turn % 2 == 0:
+                    new_turn = self.player2.take_turn(self.game, chess_can_move)
+                    if new_turn:
+                        self.game.mementos.append(self.game.create_memento())
+
+            elif self.type == "checkers":
                 if self.game.turn % 2 == 1:
                     new_turn = self.player1.take_turn(self.game, can_jump, can_move)
                     if new_turn:
                         self.game.mementos.append(self.game.create_memento())
-                    elif self.game.turn % 2 == 0:
-                        new_turn = self.player2.take_turn(self.game, can_jump, can_move)
-                        if new_turn:
-                            self.game.mementos.append(self.game.create_memento())
+                elif self.game.turn % 2 == 0:
+                    new_turn = self.player2.take_turn(self.game, can_jump, can_move)
+                    if new_turn:
+                        self.game.mementos.append(self.game.create_memento())
 
 
 

@@ -134,6 +134,7 @@ class Greedy(Player):
             self.game.turns_without_capture += 1
             return True
 
+
 class GreedyChess(Player):
     def take_turn(self, game:CheckerBoard, chess_can_move:list) -> bool:
         self.game = game
@@ -164,6 +165,7 @@ class GreedyChess(Player):
             self.game.turns_without_capture = 0
         return True
 
+
 class RandomChess(Player):
     def take_turn(self, game:CheckerBoard, chess_can_move:list) -> bool:
         self.game = game
@@ -180,6 +182,7 @@ class RandomChess(Player):
         else:
             self.game.turns_without_capture = 0
         return True
+
 
 class HumanChess(Player):
     def take_turn(self, game:CheckerBoard, chess_can_move:list) -> bool:
