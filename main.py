@@ -39,14 +39,14 @@ class CheckersCLI():
                     coord = self.game.convert_matrix_coord((row_index, spot_index))
                     if self.game.has_piece(coord) and self.game.is_current_player_piece(coord):
                         if self.game.board[row_index][spot_index].type == B_CHESS_KING:
-                            pass
+                            b_king = True
                         elif self.game.board[row_index][spot_index].type == W_CHESS_KING:
-                            pass
+                            w_king = True
                         if len(self.game.board[row_index][spot_index].possible_moves(self.game, coord)) > 0:
                             chess_can_move.append(coord)
                         else:
                             chess_cannot_move.append(coord)
-            return [chess_can_move, chess_cannot_move]
+            return [chess_can_move, chess_cannot_move, b_king, w_king]
         elif self.type == "checkers":
             # check if any pieces have possible jump moves or basic moves
             can_jump, can_move, cannot_move = [], [], []
@@ -136,7 +136,7 @@ class CheckersCLI():
                 status = self.game_check()
 
                 if self.type == "chess":
-                    chess_can_move, chess_cannot_move = status[0], status[1]
+                    chess_can_move, chess_cannot_move, b_king, w_king = status[0], status[1], status[2], status[3]
                     if len(chess_can_move) == len(chess_cannot_move) == 0: # FIX: check if king is taken instead
                         # other player wins
                         if self.game.turn % 2 == 1:
@@ -145,6 +145,12 @@ class CheckersCLI():
                         elif self.game.turn % 2 == 0:
                             print("white has won")
                             break
+                    elif b_king == False:
+                        print("white has won")
+                        break
+                    elif w_king == False:
+                        print("black has won")
+                        break
                     elif len(chess_can_move) == 0 and len(chess_cannot_move) > 0:
                         print("draw")
                         break
