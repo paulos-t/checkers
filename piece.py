@@ -97,6 +97,8 @@ class Pawn(ChessPiece):
                 # if no piece two spaces in front
                 p_basic_moves.append((board.convert_matrix_coord((coord[0] + basic_movement[0], coord[1])), 0))
                 p_basic_moves.append((board.convert_matrix_coord((coord[0] + basic_movement[0]*2, coord[1])), 0))
+        else:
+            p_basic_moves.append((board.convert_matrix_coord((coord[0] + basic_movement[0], coord[1])), 0))
 
         for move in capture_movement:
             if coord[0] + move[0] > 7 or coord[0] + move[0] < 0 or coord[1] + move[1] > 7 or coord[1] + move[1] < 0:
@@ -105,7 +107,7 @@ class Pawn(ChessPiece):
                 not board.is_current_player_piece(board.convert_matrix_coord((coord[0] + move[0], coord[1] + move[1]))):
                 # if captureable piece diagonally in front
                 p_basic_moves.append(
-                    (board.convert_matrix_coord((coord[0] + move[0], coord[1] + move[0])), \
+                    (board.convert_matrix_coord((coord[0] + move[0], coord[1] + move[1])), \
                         board.board[coord[0] + move[0]][coord[1] + move[1]].get_value()))
         
         return p_basic_moves
