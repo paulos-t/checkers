@@ -133,3 +133,79 @@ class Greedy(Player):
             self.game.turn += 1
             self.game.turns_without_capture += 1
             return True
+
+class GreedyChess(Player):
+    def take_turn(self, game:CheckerBoard, chess_can_move:list) -> bool:
+        self.game = game
+        best_piece_val = 0
+        possible_m = []
+
+        for i in range(len(chess_can_move)):
+            coord = self.game.convert_checker_coord(chess_can_move[i])
+            piece = self.game.board[coord[0]][coord[1]]
+            p_moves_i = piece.possible_moves(chess_can_move[i])
+            for j in range(len(p_moves_i)):
+                if p_moves_i[j][1] >= best_piece_val:
+                    best_piece_val = p_moves_i[j][1]
+        for k in range(len(chess_can_move)):
+            coord = self.game.convert_checker_coord(chess_can_move[k])
+            piece = self.game.board[coord[0]][coord[1]]
+            p_moves_k = piece.possible_moves(chess_can_move[k])
+            for l in range(len(p_moves_k)):
+                if p_moves_k[l][1] == best_piece_val:
+                    possible_m.append((chess_can_move[k],p_moves_k[k]))
+        move_selector = random.choice(possible_m)
+        self.game.move(move_selector[0],move_selector[1][0])
+        print("move: " + move_selector[0] + "->"+ move_selector[1][0])
+        self.game.turn += 1
+        if move_selector[1][1] == 0:
+            self.game.turns_without_capture += 1
+        else:
+            self.game.turns_without_capture = 0
+        return True
+
+class RandomChess(Player):
+    def take_turn(self, game:CheckerBoard, chess_can_move:list) -> bool:
+        self.game = game
+        p_random_move = random.choice(chess_can_move)
+        coord = self.game.convert_checker_coord(p_random_move)
+        piece = self.game.board[coord[0]][coord[1]]
+        p_moves_i = piece.possible_moves(p_random_move)
+        p_moves_i_random = random.choice(p_moves_i)
+        self.game.move(p_random_move,p_moves_i_random[0])
+        print("move: " + p_random_move + "->"+ p_moves_i_random[0])
+        self.game.turn += 1
+        if p_moves_i_random[1] == 0:
+            self.game.turns_without_capture += 1
+        else:
+            self.game.turns_without_capture = 0
+        return True
+
+class HumanChess(Player):
+    def take_turn(self, game:CheckerBoard, chess_can_move:list) -> bool:
+        self.game = game
+        p_to_move = input("Select a piece to move\n")
+        if not self.game.has_piece(p_to_move):
+            print("No piece at that location")
+            return False
+        elif not self.game.is_current_player_piece(p_to_move):
+            print("That is not your piece")
+            return False
+        coord = self.game.convert_checker_coord(p_to_move)
+        piece = self.game.board[coord[0]][coord[1]]
+        p_basic_moves = piece.possible_moves(self.game,p_to_move)
+        if len(p_basic_moves) == 0:
+            print("That piece cannot move")
+            return False
+        else:
+            for string in self.game.display_moves(p_to_move, p_basic_moves, "chessmove"):
+                print(string)
+            selected_move = int(input("Select a move by entering the corresponding index\n"))
+            self.game.move(p_to_move, p_basic_moves[selected_move][0])
+            
+            if p_basic_moves[selected_move][1] == 0:
+                self.game.turns_without_capture += 1
+            else:
+                self.game.turns_without_capture = 0
+            self.game.turn += 1
+            return True

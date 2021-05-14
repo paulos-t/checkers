@@ -96,7 +96,7 @@ class CheckerBoard():
 
     def is_current_player_piece(self, piece:str) -> bool:
         coord = self.convert_checker_coord(piece)
-        piece_color = str(self.board[coord[0]][coord[1]])
+        piece_color = self.board[coord[0]][coord[1]].color
         if self.turn % 2 == 1:
             if piece_color == W_PEASANT or piece_color == W_KING or piece_color == 'w':
                 return True
@@ -466,7 +466,7 @@ class CheckerBoard():
                 out.append(f"{move[0]}: jump move: {piece}->{move[1][0]}, capturing {cap}")
         elif type == "chessmove":
             for move in enumerate(moves):
-                out.append(f"{move[0]}: move: {piece}->{move[move[1][0]]}")
+                out.append(f"{move[0]}: move: {piece}->{move[1][0]}")
         return out
 
 
