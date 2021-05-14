@@ -222,7 +222,7 @@ class Rook(ChessPiece):
                     # if empty space
                     p_basic_moves.append((board.convert_matrix_coord((temp_coord[0], temp_coord[1])), 0))
                 elif board.has_piece(board.convert_matrix_coord((temp_coord[0], temp_coord[1]))) and \
-                    board.is_current_player_piece(board.convert_matrix_coord((temp_coord[0], temp_coord[1]))):
+                    not board.is_current_player_piece(board.convert_matrix_coord((temp_coord[0], temp_coord[1]))):
                     # if capture available
                     p_basic_moves.append(
                         (board.convert_matrix_coord((temp_coord[0], temp_coord[1])), \
@@ -265,7 +265,7 @@ class Queen(ChessPiece):
                     # if empty space
                     p_basic_moves.append((board.convert_matrix_coord((temp_coord[0], temp_coord[1])), 0))
                 elif board.has_piece(board.convert_matrix_coord((temp_coord[0], temp_coord[1]))) and \
-                    board.is_current_player_piece(board.convert_matrix_coord((temp_coord[0], temp_coord[1]))):
+                    not board.is_current_player_piece(board.convert_matrix_coord((temp_coord[0], temp_coord[1]))):
                     # if capture available
                     p_basic_moves.append(
                         (board.convert_matrix_coord((temp_coord[0], temp_coord[1])), \
@@ -307,7 +307,7 @@ class ChessKing(ChessPiece):
                 # if empty space
                 p_basic_moves.append((board.convert_matrix_coord((temp_coord[0], temp_coord[1])), 0))
             elif board.has_piece(board.convert_matrix_coord((temp_coord[0], temp_coord[1]))) and \
-                board.is_current_player_piece(board.convert_matrix_coord((temp_coord[0], temp_coord[1]))):
+                not board.is_current_player_piece(board.convert_matrix_coord((temp_coord[0], temp_coord[1]))):
                 # if capture available
                 p_basic_moves.append(
                     (board.convert_matrix_coord((temp_coord[0], temp_coord[1])), \
