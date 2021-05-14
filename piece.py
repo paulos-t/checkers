@@ -206,9 +206,31 @@ class Rook(ChessPiece):
 
     def possible_moves(self, board, piece):
         coord = board.convert_checker_coord(piece)
-        piece_color = str(board.board[coord[0]][coord[1]])
         p_basic_moves = []
 
+        movement = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+        for direction in movement:
+            temp_coord = [coord[0], coord[1]]
+            while True:
+                if temp_coord[0] + direction[0] > 7 or temp_coord[0] + direction[0] < 0 or \
+                    temp_coord[1] + direction[1] > 7 or temp_coord[1] + direction[1] < 0:
+                    # if goes off the board
+                    break
+                temp_coord[0] = temp_coord[0] + direction[0]
+                temp_coord[1] = temp_coord[1] + direction[1]
+                if not board.has_piece(board.convert_matrix_coord((temp_coord[0], temp_coord[1]))):
+                    # if empty space
+                    p_basic_moves.append((board.convert_matrix_coord((temp_coord[0], temp_coord[1])), 0))
+                elif board.has_piece(board.convert_matrix_coord((temp_coord[0], temp_coord[1]))) and \
+                    board.is_current_player_piece(board.convert_matrix_coord((temp_coord[0], temp_coord[1]))):
+                    # if capture available
+                    p_basic_moves.append(
+                        (board.convert_matrix_coord((temp_coord[0], temp_coord[1])), \
+                            board.board[temp_coord[0]][temp_coord[1]].get_value()) )
+                    break
+                else:
+                    # if own piece blocking path
+                    break
         return p_basic_moves
 
 
@@ -227,9 +249,31 @@ class Queen(ChessPiece):
 
     def possible_moves(self, board, piece):
         coord = board.convert_checker_coord(piece)
-        piece_color = str(board.board[coord[0]][coord[1]])
         p_basic_moves = []
 
+        movement = [(1, 1), (1, -1), (-1, 1), (-1, -1), (1, 0), (-1, 0), (0, 1), (0, -1)]
+        for direction in movement:
+            temp_coord = [coord[0], coord[1]]
+            while True:
+                if temp_coord[0] + direction[0] > 7 or temp_coord[0] + direction[0] < 0 or \
+                    temp_coord[1] + direction[1] > 7 or temp_coord[1] + direction[1] < 0:
+                    # if goes off the board
+                    break
+                temp_coord[0] = temp_coord[0] + direction[0]
+                temp_coord[1] = temp_coord[1] + direction[1]
+                if not board.has_piece(board.convert_matrix_coord((temp_coord[0], temp_coord[1]))):
+                    # if empty space
+                    p_basic_moves.append((board.convert_matrix_coord((temp_coord[0], temp_coord[1])), 0))
+                elif board.has_piece(board.convert_matrix_coord((temp_coord[0], temp_coord[1]))) and \
+                    board.is_current_player_piece(board.convert_matrix_coord((temp_coord[0], temp_coord[1]))):
+                    # if capture available
+                    p_basic_moves.append(
+                        (board.convert_matrix_coord((temp_coord[0], temp_coord[1])), \
+                            board.board[temp_coord[0]][temp_coord[1]].get_value()) )
+                    break
+                else:
+                    # if own piece blocking path
+                    break
         return p_basic_moves
 
 
@@ -248,7 +292,28 @@ class ChessKing(ChessPiece):
 
     def possible_moves(self, board, piece):
         coord = board.convert_checker_coord(piece)
-        piece_color = str(board.board[coord[0]][coord[1]])
         p_basic_moves = []
 
+        movement = [(1, 1), (1, -1), (-1, 1), (-1, -1), (1, 0), (-1, 0), (0, 1), (0, -1)]
+        for direction in movement:
+            temp_coord = [coord[0], coord[1]]
+            if temp_coord[0] + direction[0] > 7 or temp_coord[0] + direction[0] < 0 or \
+                temp_coord[1] + direction[1] > 7 or temp_coord[1] + direction[1] < 0:
+                # if goes off the board
+                continue
+            temp_coord[0] = temp_coord[0] + direction[0]
+            temp_coord[1] = temp_coord[1] + direction[1]
+            if not board.has_piece(board.convert_matrix_coord((temp_coord[0], temp_coord[1]))):
+                # if empty space
+                p_basic_moves.append((board.convert_matrix_coord((temp_coord[0], temp_coord[1])), 0))
+            elif board.has_piece(board.convert_matrix_coord((temp_coord[0], temp_coord[1]))) and \
+                board.is_current_player_piece(board.convert_matrix_coord((temp_coord[0], temp_coord[1]))):
+                # if capture available
+                p_basic_moves.append(
+                    (board.convert_matrix_coord((temp_coord[0], temp_coord[1])), \
+                        board.board[temp_coord[0]][temp_coord[1]].get_value()) )
+                continue
+            else:
+                # if own piece blocking path
+                continue
         return p_basic_moves
