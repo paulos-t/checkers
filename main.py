@@ -37,10 +37,11 @@ class CheckersCLI():
                 for spot in row:
                     spot_index = list(row).index(spot)
                     coord = self.game.convert_matrix_coord((row_index, spot_index))
-                    if self.game.board[row_index][spot_index].type == B_CHESS_KING:
-                        b_king = True
-                    elif self.game.board[row_index][spot_index].type == W_CHESS_KING:
-                        w_king = True
+                    if self.game.has_piece(coord):
+                        if self.game.board[row_index][spot_index].type == B_CHESS_KING:
+                            b_king = True
+                        elif self.game.board[row_index][spot_index].type == W_CHESS_KING:
+                            w_king = True
                     if self.game.has_piece(coord) and self.game.is_current_player_piece(coord):
                         if len(self.game.board[row_index][spot_index].possible_moves(self.game, coord)) > 0:
                             chess_can_move.append(coord)
