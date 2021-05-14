@@ -6,6 +6,8 @@ B_PEASANT = '\u2688'
 W_PEASANT = '\u2686'
 B_KING = '\u2689'
 W_KING = '\u2687'
+B_CHESS_KING = '\u265A'
+W_CHESS_KING = '\u2654'
 
 class CheckersCLI():
 
@@ -29,12 +31,17 @@ class CheckersCLI():
     def game_check(self) -> list:
         if self.type == "chess":
             chess_can_move, chess_cannot_move = [], []
+            b_king, w_king = False, False
             for row in self.game.board:
                 row_index = self.game.board.index(row)
                 for spot in row:
                     spot_index = list(row).index(spot)
                     coord = self.game.convert_matrix_coord((row_index, spot_index))
                     if self.game.has_piece(coord) and self.game.is_current_player_piece(coord):
+                        if self.game.board[row_index][spot_index].type == B_CHESS_KING:
+                            pass
+                        elif self.game.board[row_index][spot_index].type == W_CHESS_KING:
+                            pass
                         if len(self.game.board[row_index][spot_index].possible_moves(self.game, coord)) > 0:
                             chess_can_move.append(coord)
                         else:
